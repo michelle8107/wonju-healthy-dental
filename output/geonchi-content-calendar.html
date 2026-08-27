@@ -1,0 +1,387 @@
+<title>건치 콘텐츠 캘린더</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FBFCFB;
+    --surface: #F0F4F2;
+    --surface-2: #E6ECE9;
+    --line: #DAE3DF;
+    --ink: #14201D;
+    --ink-soft: #4C5C57;
+    --ink-faint: #7C8B86;
+    --teal: #2E7A78;
+    --teal-strong: #14413F;
+    --teal-soft: #E2F2F0;
+    --coral: #D97757;
+    --coral-soft: #FBEAE3;
+    --amber: #B98A2E;
+    --amber-soft: #F7EDD9;
+    --bg-card: #FFFFFF;
+    --on-accent: #FFFFFF;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101614;
+      --surface: #172120;
+      --surface-2: #1E2B29;
+      --line: #2A3937;
+      --ink: #EAF2F0;
+      --ink-soft: #A9BAB6;
+      --ink-faint: #728380;
+      --teal: #6FD6CE;
+      --teal-strong: #A0E8E0;
+      --teal-soft: #163634;
+      --coral: #F0A183;
+      --coral-soft: #3A2620;
+      --amber: #E0B968;
+      --amber-soft: #3A311E;
+      --bg-card: #172120;
+      --on-accent: #0B1615;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101614;
+    --surface: #172120;
+    --surface-2: #1E2B29;
+    --line: #2A3937;
+    --ink: #EAF2F0;
+    --ink-soft: #A9BAB6;
+    --ink-faint: #728380;
+    --teal: #6FD6CE;
+    --teal-strong: #A0E8E0;
+    --teal-soft: #163634;
+    --coral: #F0A183;
+    --coral-soft: #3A2620;
+    --amber: #E0B968;
+    --amber-soft: #3A311E;
+    --bg-card: #172120;
+    --on-accent: #0B1615;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.1rem, 4vw, 2rem) 4rem; }
+
+  h1, h2, h3 { font-family: 'Noto Serif KR', serif; color: var(--ink); margin: 0; text-wrap: balance; }
+  .mono { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+
+  header.top { margin-bottom: clamp(2rem, 5vw, 3rem); }
+  .eyebrow {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+  h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 700; }
+  .lede { margin-top: 0.9rem; color: var(--ink-soft); max-width: 62ch; font-size: 1.02rem; }
+  .meta-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+  .meta-item { font-size: 0.86rem; color: var(--ink-soft); }
+  .meta-item strong { color: var(--ink); font-weight: 700; }
+
+  /* Pillar legend cards */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0 2.6rem;
+  }
+  @media (max-width: 720px) { .pillars { grid-template-columns: 1fr; } }
+  .pillar-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    padding: 1.2rem 1.3rem;
+  }
+  .pillar-card.p-a { --accent: var(--teal); }
+  .pillar-card.p-b { --accent: var(--coral); }
+  .pillar-card.p-c { --accent: var(--amber); }
+  .pillar-card .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .pillar-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .pillar-card p { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+  .pillar-card .role {
+    margin-top: 0.7rem;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* Week groups */
+  .week-block { margin-bottom: 2.4rem; }
+  .week-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .week-head .num {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .week-head .theme { font-size: 0.88rem; color: var(--ink-soft); }
+
+  .entry-list { display: flex; flex-direction: column; gap: 0.7rem; }
+  .entry {
+    display: grid;
+    grid-template-columns: 88px auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 1rem 1.15rem;
+  }
+  @media (max-width: 640px) {
+    .entry { grid-template-columns: 1fr; gap: 0.5rem; }
+    .entry .day { display: flex; align-items: center; gap: 0.6rem; }
+  }
+  .entry .day {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    padding-top: 0.15rem;
+  }
+  .entry .day .d-num { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+  .entry .pill {
+    align-self: start;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    color: var(--on-accent);
+    background: var(--accent);
+  }
+  .entry.p-a { --accent: var(--teal); }
+  .entry.p-b { --accent: var(--coral); }
+  .entry.p-c { --accent: var(--amber); }
+  .entry .body h4 { margin: 0 0 0.35rem; font-size: 1rem; font-weight: 700; color: var(--ink); }
+  .entry .body p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .entry .body .cta { display: block; margin-top: 0.4rem; font-size: 0.78rem; color: var(--ink-faint); }
+
+  footer.note {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.84rem;
+    color: var(--ink-faint);
+  }
+  footer.note p { margin: 0 0 0.5rem; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="eyebrow">Content Plan · Instagram Reels &amp; YouTube Shorts</span>
+    <h1>건치의 첫 달 콘텐츠 캘린더</h1>
+    <p class="lede">원주 건강한치과 마스코트 '건치'가 전하는 치과 상식 &amp; 공감 콘텐츠. 랜덤한 주제 대신 3개의 고정 포맷을 번갈아 올려서 인지도와 신뢰를 함께 쌓는 4주 플랜입니다.</p>
+    <div class="meta-row">
+      <div class="meta-item">업로드 빈도 · <strong>주 3~4회</strong></div>
+      <div class="meta-item">권장 길이 · <strong>15~30초</strong></div>
+      <div class="meta-item">동일 소스 · <strong>릴스 + 쇼츠 동시 업로드</strong></div>
+    </div>
+  </header>
+
+  <section class="pillars">
+    <div class="pillar-card p-a">
+      <span class="tag">PILLAR A</span>
+      <h3>건치의 팩트체크</h3>
+      <p>흔한 치과 오해를 짧고 단정하게 바로잡는 정보성 콘텐츠.</p>
+      <div class="role">신뢰 축적 · 확산력은 약함</div>
+    </div>
+    <div class="pillar-card p-b">
+      <span class="tag">PILLAR B</span>
+      <h3>건치의 공감 리액션</h3>
+      <p>치과 관련 순간의 감정을 건치 캐릭터로 과장해서 보여주는 밈형 콘텐츠.</p>
+      <div class="role">조회수 · 공유 잘 나옴, 전환은 약함</div>
+    </div>
+    <div class="pillar-card p-c">
+      <span class="tag">PILLAR C</span>
+      <h3>시즌 실전 꿀팁</h3>
+      <p>계절·명절 이슈에 얹는 바로 써먹는 관리 팁.</p>
+      <div class="role">검색·저장 유도 · 시의성 필요</div>
+    </div>
+  </section>
+
+  <div class="week-block">
+    <div class="week-head"><span class="num mono">W1</span><span class="theme">첫인상 — 건치를 각인시키는 주</span></div>
+    <div class="entry-list">
+      <div class="entry p-b">
+        <div class="day">월<br><span class="d-num mono">D1</span></div>
+        <span class="pill">공감 리액션</span>
+        <div class="body">
+          <h4>"치과 예약 미루기 500일차" 건치</h4>
+          <p>알림 울릴 때마다 못 본 척하는 건치. 마지막에 예약 완료하고 안도하는 반전.</p>
+          <span class="cta">CTA: 자막으로 "미루면 더 커져요" + 오시는 길 링크</span>
+        </div>
+      </div>
+      <div class="entry p-a">
+        <div class="day">수<br><span class="d-num mono">D3</span></div>
+        <span class="pill">팩트체크</span>
+        <div class="body">
+          <h4>"임플란트는 한 번 하면 평생 간다?"</h4>
+          <p>정답은 NO. 관리 안 하면 임플란트 주위염 생긴다는 걸 건치가 X 표시로 단호하게 정정.</p>
+          <span class="cta">CTA: "관리법은 다음 영상에서" 시리즈 예고</span>
+        </div>
+      </div>
+      <div class="entry p-b">
+        <div class="day">금<br><span class="d-num mono">D5</span></div>
+        <span class="pill">공감 리액션</span>
+        <div class="body">
+          <h4>아이스크림 한 입 → 시린이 습격</h4>
+          <p>행복하게 먹다가 순간 굳어버리는 건치의 표정 변화 3단 컷.</p>
+          <span class="cta">CTA: 댓글로 "나만 이래?" 유도</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-head"><span class="num mono">W2</span><span class="theme">신뢰 쌓기 — 오해를 하나씩 정리</span></div>
+    <div class="entry-list">
+      <div class="entry p-a">
+        <div class="day">월<br><span class="d-num mono">D8</span></div>
+        <span class="pill">팩트체크</span>
+        <div class="body">
+          <h4>"충치는 안 아프면 괜찮다?"</h4>
+          <p>초기 충치는 무증상이라 방치하면 신경치료까지 간다는 걸 엑스레이 그래픽과 함께.</p>
+          <span class="cta">CTA: "6개월마다 검진" 자막 강조</span>
+        </div>
+      </div>
+      <div class="entry p-c">
+        <div class="day">수<br><span class="d-num mono">D10</span></div>
+        <span class="pill">시즌 꿀팁</span>
+        <div class="body">
+          <h4>추석 음식(송편·약과) 먹고 난 뒤 3초 관리법</h4>
+          <p>끈적한 명절 간식 후 바로 할 수 있는 초간단 팁을 건치가 시연.</p>
+          <span class="cta">CTA: 저장 유도 "명절에 다시 볼 사람 저장"</span>
+        </div>
+      </div>
+      <div class="entry p-b">
+        <div class="day">금<br><span class="d-num mono">D12</span></div>
+        <span class="pill">공감 리액션</span>
+        <div class="body">
+          <h4>스케일링 예약 잡을 때 vs 실제 받을 때</h4>
+          <p>당당하게 예약하는 건치 → 의자에 눕자마자 긴장하는 건치의 온도차.</p>
+          <span class="cta">CTA: "스케일링 안 아파요" 안심 멘트</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-head"><span class="num mono">W3</span><span class="theme">가족·일상 — 공감 범위를 넓히는 주</span></div>
+    <div class="entry-list">
+      <div class="entry p-b">
+        <div class="day">월<br><span class="d-num mono">D15</span></div>
+        <span class="pill">공감 리액션</span>
+        <div class="body">
+          <h4>가족이 "이가 좀 아픈 것 같아"라고 할 때 건치(치과의사 시점)</h4>
+          <p>대수롭지 않게 말하는 가족 vs 심각해지는 건치의 표정 대비.</p>
+          <span class="cta">CTA: "미루지 말고 바로 오세요" 톤 유지</span>
+        </div>
+      </div>
+      <div class="entry p-a">
+        <div class="day">수<br><span class="d-num mono">D17</span></div>
+        <span class="pill">팩트체크</span>
+        <div class="body">
+          <h4>"스케일링 자주 하면 이가 시려진다?"</h4>
+          <p>오해라는 걸 짚고, 오히려 안 하면 잇몸이 더 나빠진다는 걸 비교 그래픽으로.</p>
+          <span class="cta">CTA: "1년에 한 번은 건강보험 적용" 정보 추가</span>
+        </div>
+      </div>
+      <div class="entry p-c">
+        <div class="day">금<br><span class="d-num mono">D19</span></div>
+        <span class="pill">시즌 꿀팁</span>
+        <div class="body">
+          <h4>새 학기 아이 치아 검진 체크리스트</h4>
+          <p>부모가 놓치기 쉬운 아이 치아 체크포인트 3가지를 건치가 카드뉴스처럼 짚어줌.</p>
+          <span class="cta">CTA: "가족 단위 진료" 포인트 슬쩍 강조</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-head"><span class="num mono">W4</span><span class="theme">마무리 — 브랜드로 연결하는 주</span></div>
+    <div class="entry-list">
+      <div class="entry p-a">
+        <div class="day">월<br><span class="d-num mono">D22</span></div>
+        <span class="pill">팩트체크</span>
+        <div class="body">
+          <h4>"치아 미백 하면 이가 약해진다?"</h4>
+          <p>미백과 치아 강도는 별개라는 걸 단정하게 팩트체크.</p>
+          <span class="cta">CTA: 심미보철 문의 유도 (과하지 않게)</span>
+        </div>
+      </div>
+      <div class="entry p-b">
+        <div class="day">수<br><span class="d-num mono">D24</span></div>
+        <span class="pill">공감 리액션</span>
+        <div class="body">
+          <h4>충치 발견 vs 치료 후 깨끗해진 이 — 비포/애프터</h4>
+          <p>절망하던 건치가 진료 후 활짝 웃는 반전 구조. 시리즈 중 가장 밝은 톤.</p>
+          <span class="cta">CTA: "20년 경력" 자막 한 줄</span>
+        </div>
+      </div>
+      <div class="entry p-c">
+        <div class="day">금<br><span class="d-num mono">D26</span></div>
+        <span class="pill">시즌 꿀팁</span>
+        <div class="body">
+          <h4>연말 회식 시즌, 술자리 후 입냄새·치아관리 팁</h4>
+          <p>회식 많은 시기에 바로 써먹는 3가지 팁. 유머 톤 살짝 섞어서.</p>
+          <span class="cta">CTA: 연말 진료시간 안내 슬쩍 첨부</span>
+        </div>
+      </div>
+      <div class="entry p-a">
+        <div class="day">토<br><span class="d-num mono">D27</span></div>
+        <span class="pill">팩트체크</span>
+        <div class="body">
+          <h4>"사랑니는 무조건 빼야 한다?"</h4>
+          <p>케이스마다 다르다는 걸 짧게 정리하며 한 달 시리즈를 정보성 콘텐츠로 마무리.</p>
+          <span class="cta">CTA: "궁금하면 상담받아보세요" 소프트 CTA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="note">
+    <p><strong>운영 팁</strong></p>
+    <p>· 매 영상 끝에 "원주 건강한치과 · 국민건강보험공단 앞" 자막을 동일한 위치에 고정해서 반복 노출시키세요.</p>
+    <p>· 하드셀(예약 강요)보다는 정보 → 공감 → 짧은 브랜드 언급 순서를 지키는 편이 저장·공유율이 높습니다.</p>
+    <p>· 반응 좋은 포맷(A/B/C)은 다음 달에 비중을 더 늘리고, 반응 낮은 포맷은 제목 후킹만 바꿔 한 번 더 테스트해보세요.</p>
+  </footer>
+
+</div>

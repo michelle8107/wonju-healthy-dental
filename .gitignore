@@ -8,3 +8,6 @@
 
 # ...except files this project actually needs tracked go here explicitly:
 !.gitignore
+!output/*.png
+!output/*.jpg
+!output/*.jpeg
