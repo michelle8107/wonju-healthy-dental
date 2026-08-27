@@ -1,0 +1,10 @@
+# Raw source assets (photos, screenshots, logos) — not tracked.
+# The website (index.html) embeds its images inline as base64, so these
+# originals are kept only in OneDrive, not in git.
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# ...except files this project actually needs tracked go here explicitly:
+!.gitignore
