@@ -7,9 +7,10 @@ description: Maintain/extend the 원주 건강한치과 Blogger auto-posting wor
 
 Per the user's explicit instruction (2026-08-28): whenever a new episode is finished (see the
 `geonchi-shorts` skill for production), it gets uploaded to **Instagram + Google Blogger**.
-Naver Blog and Kakao Channel get manual copy-paste text only (no posting API exists for either —
-see below) — write the post text with photo-placement markers like `[사진: ...]`, don't attempt
-to automate those two.
+**Naver Blog is now half-automated** (added 2026-09-05, see "Naver Blog drafts" below): still no
+posting API, but a Playwright script fills the 스마트에디터 ONE and saves a **임시저장 draft**;
+the user reviews and hits 발행 manually. Kakao Channel still gets manual copy-paste text only —
+write the post text with photo-placement markers like `[사진: ...]`, don't attempt to automate it.
 
 - **Naming: never say "소아치과" (implies a specialist pediatric-dentistry designation this
   clinic doesn't hold) — use "소아 진료" instead**, everywhere (post titles, labels, body text).
@@ -131,13 +132,31 @@ posts — it has no idea a video episode exists. When "올려야지"-ing an epis
 
 Same publishing mechanism as the episode companion posts above (`scripts/publish-geonchi-post.mjs
 <html-file> "<title>" "labels"` — the script name is historical, it's a generic "publish an HTML
-post with the clinic footer" tool, not episode-specific), just without the video/screenshots:
-write a professional/informational article (see `scripts/implant-guide-post.html` and
-`scripts/gum-health-post.html` for the established shape — teal header banner div, numbered/
-bulleted sections, a comparison table where it fits the topic, closing with 표경열 원장's real
-credentials for E-E-A-T, then the standard "정확한 진단은 상담 후" close). No mascot, no casual
-voice — this tone is deliberately more clinical/expert than the episode posts. Same guardrails
-apply (no efficacy promises, no before/after, no testimonials, no discounts).
+post with the clinic footer" tool, not episode-specific), just without the video/screenshots.
+Two established voices — pick based on what the user asks for (default to the teal-banner
+clinical voice unless they ask for the personal one, or the topic is patient-facing/anxiety-
+driven like this 치석 example):
+
+**Clinical/expert voice** (see `scripts/implant-guide-post.html` and `scripts/gum-health-post.html`):
+teal header banner div, numbered/bulleted sections, a comparison table where it fits the topic,
+closing with 표경열 원장's real credentials for E-E-A-T, then the standard "정확한 진단은 상담 후"
+close. No mascot, no casual voice — deliberately more clinical/expert than the episode posts.
+
+**Personal 1인칭 voice** (added 2026-09-02, see `scripts/tartar-guide-post.html` — 치석 article):
+user asked for posts that read "진짜 손으로 쓴글처럼" (like something the doctor genuinely wrote
+by hand), opening with a specific spoken-style pattern: "안녕하세요, 원주에서 치과를 진료하고
+있는 치과의사 표경열입니다." → "환자분들께서 가장 많이 문의주시는 부분 중 하나가 '[주제]'입니다."
+→ a line or two of the kind of question patients actually ask → "그래서 오늘은 [주제]에 대해
+이야기해볼까 합니다." No teal banner box (drop it entirely for this voice — just a small name
+byline + plain h2 title, since a big corporate box undercuts the "handwritten" feel); h3
+section headers keep the teal left-border style for scannability, but body prose stays warm,
+first-person, 해요체/합니다 conversational mix — not bullet-heavy corporate copy. Close with a
+first-person wind-down paragraph (not a generic CTA) plus a line steering toward in-person
+confirmation ("정확한 상태는 내원하셔서 확인받아보시길 권해드려요" or similar, in the same
+voice) before the credentials box. Same guardrails apply regardless of voice (no efficacy
+promises, no before/after, no testimonials, no discounts) — the doctor's own first-person
+clinical-experience commentary ("여러 사례를 진료해 온 경험에 비추어 보면...") is fine and is
+not a testimonial, since it's the author's voice, not a quoted patient.
 
 **After publishing, push the topic onto the Redis history** (`lpush dental-blog:recent-topics
 "<short topic label>"` via the same REST pattern used elsewhere) even though this wasn't the
@@ -158,6 +177,58 @@ mix each time, and don't dump all 30 on one post (looks spammy, dilutes SEO sign
 2026-08-28 — this is a local-SEO/GEO-visibility content strategy, not a share-and-remix blog;
 CC-licensing would just make it legal for other sites to republish the content verbatim, diluting
 uniqueness rather than helping. Default copyright (all rights reserved) is correct here.
+
+## Naver Blog drafts (Playwright, added 2026-09-05)
+
+Naver has **no blog-writing API** (the old 오픈API 글쓰기 is gone), so this works the same way the
+user's Tistory pipeline does: drive a real Chrome with Playwright, fill 스마트에디터 ONE, and stop
+at **임시저장**. Publishing stays manual — the user reviews the draft in Naver and hits 발행.
+
+Blog: `blog.naver.com/healthy2275` (the ID is in `index.html`'s footer link, and in
+`scripts/naver-blog-config.json`).
+
+| 단계 | 자동/수동 |
+| --- | --- |
+| 제목·본문(HTML 붙여넣기)·태그 입력 | 자동 |
+| 임시저장 | 자동 |
+| 발행(공개) | 사용자 수동 |
+| 네이버 로그인 | 최초 1회 수동 (크롬 창에서) |
+
+**Files**
+- `scripts/naver-blog-core.mjs` — launch/login/frame/fill 공용 모듈. 셀렉터 후보 목록이 여기 있다.
+- `scripts/naver-blog-draft.mjs` — 한 편. `node scripts/naver-blog-draft.mjs <html> "<제목>" "태그1,태그2"`
+- `scripts/naver-blog-backfill.mjs` — 여러 편 1세션. `node scripts/naver-blog-backfill.mjs scripts/naver-backfill-manifest.json --delay 5`
+- `scripts/naver-blog-config.json` — blogId, 프로필 경로, 셀렉터 override
+- `scripts/naver-backfill-manifest.json` — 기존 정보성 글 8편(파일/제목/태그). 건치 에피소드 글은
+  유튜브 iframe이 붙여넣기에서 날아가므로 **일부러 제외**했다 — 그건 영상 링크를 에디터에서 직접 붙여야 한다.
+- npm 스크립트: `npm run naver-draft -- ...`, `npm run naver-backfill -- ...`
+
+옵션: `--inspect`(입력 없이 DOM 진단만) · `--keep-open`(끝나도 창 유지) · `--timeout N`(로그인 대기 초,
+기본 300) · `--publish`(임시저장 대신 발행까지 — 기본 아님, 명시할 때만)
+
+**How the body gets in.** 스마트에디터 ONE은 내부 문서 모델이 따로 있어서 `innerHTML` 주입을
+무시한다. 그래서 클립보드에 `text/html`을 써넣고 `Ctrl+V` — 에디터의 붙여넣기 핸들러가 자기
+컴포넌트로 변환한다. 클립보드 권한이 막히면 평문 타이핑으로 자동 폴백한다. **inline style은
+네이버가 대부분 버리므로** Blogger용 HTML의 teal 배너/표 서식은 그대로 살아오지 않는다 —
+초안에서 사용자가 다듬는 걸 전제로 한 파이프라인이다. 병원 정보 푸터도 이 때문에 네이버용으로
+태그를 최소화한 별도 버전(`CLINIC_FOOTER` in `naver-blog-core.mjs`)을 쓴다.
+
+**운영 함정**
+1. **`.naver-profile/`에 네이버 로그인 세션이 들어있다 — .gitignore 필수** (이미 넣어둠).
+   `.naver-shots/`(스크린샷)도 같이 무시된다.
+2. **배치는 반드시 `naver-blog-backfill.mjs`로 1세션에 몰아서.** 편마다 스크립트를 새로 띄우면
+   매번 로그인/캡차를 만난다. 백필은 2편째부터 글쓰기 URL을 다시 열어 이전 본문이 안 섞이게 한다.
+3. **"작성 중인 글 불러오기" 팝업은 항상 취소**(`dismissPopups`) — 안 그러면 이전 편 본문 위에 덮어쓴다.
+4. **임시저장 개수는 에디터 상단 "저장 N" 카운터로 확인.** 블로그 글 목록에는 발행글만 보인다.
+5. **셀렉터가 깨지면 `--inspect`.** 스마트에디터 ONE 클래스명엔 해시가 붙어(`save_btn__xxxxx`)
+   배포마다 바뀐다. 스크립트는 해시 없는 부분일치(`[class*='save_btn']`)를 먼저 쓰고, 그래도 안 되면
+   `--inspect` 출력의 실제 클래스를 `naver-blog-config.json`의 `selectors`에 넣어 덮어쓴다.
+6. 네이버는 자동화 브라우저를 감지한다. 실제 크롬(`channel: "chrome"`) +
+   `--disable-blink-features=AutomationControlled`로 완화했지만, 캡차가 뜨면 사용자가 창에서 직접 푼다.
+
+**Status (2026-09-05):** 스크립트/설정/매니페스트 작성 완료, 브라우저 실행–URL 이동–로그인 감지까지
+스모크 테스트 통과. **로그인 이후 구간(제목/본문/태그/저장 셀렉터)은 아직 실사용 검증 전** —
+첫 실행은 반드시 `--inspect --keep-open`으로 돌려 셀렉터를 확인하고, 어긋나면 config에 override할 것.
 
 ## Instagram publishing (Reels)
 
@@ -219,14 +290,62 @@ order, so name them `01.png, 02.png, ...` to control slide order. Same `getValid
 
 **Design system for this format** (confirmed with the user 2026-08-31, revised once already —
 first draft used the teal/mint brand palette from the blog and Malgun Gothic, user asked for a
-full redo): 1080×1350 (4:5) PNGs, **navy palette** — bg `#0A1428`, card bg `#132444`, ink
-`#F0F4FA`, ink-soft `#A3B3D1`, accent blue `#7AA8FF` — **not** the teal/mint brand color used
-everywhere else (blog banners, 건치 shorts title cards). Font is **Noto Sans KR**
+full redo): 1080×1350 (4:5) PNGs — **not** the teal/mint brand color used everywhere else (blog
+banners, 건치 shorts title cards). Font is **Noto Sans KR**
 (`C:/Windows/Fonts/NotoSansKR-VF.ttf`, a variable font — `font.set_variation_by_name("Black"/
 "Bold"/"Medium"/"Regular")` in PIL, not Malgun Gothic and not the mascot series' Jua font).
 Rendered with the same PIL-overlay approach as the shorts captions (see geonchi-shorts skill) —
 draw each slide as a full PNG via `PIL.ImageDraw`/`ImageFont`, no ffmpeg involved here since
-there's no video, just static images published directly.
+there's no video, just static images published directly. A reusable generator (palette dict +
+slide-type helpers: title/bullets/checklist-card/closing) lives at
+`scripts/gen-med-disclosure-carousel.py` (older/original layout) and
+`scripts/gen-implant-aftercare-carousel.py` (2026-09-07 revision — **use this one as the base for
+new carousels**, it has the current layout conventions below) — copy and adapt per new carousel
+topic rather than rebuilding the PIL layout from scratch each time.
+
+**Layout conventions, revised 2026-09-07 after user feedback on the 임플란트 시술 후 관리
+체크리스트 carousel — apply these to every new carousel, not just that one:**
+- **Title AND the small eyebrow label are both horizontally centered** (not left-aligned at
+  x=72 like the original `gen-med-disclosure-carousel.py`). `draw_title`/`draw_eyebrow` compute
+  each line's width via `textbbox` and center it against the full 1080px canvas width.
+- **The whole text block sits in the vertical-middle area of the canvas, not pinned to the top.**
+  Concretely: title-only hook slides start the eyebrow around `y=420`, title `y=520`; slides with
+  bullets/cards below the title start higher (`y=340` eyebrow / `y=420` title) so the body content
+  still fits above the footer. See `gen-implant-aftercare-carousel.py` for the exact per-slide-type
+  y-anchors — reuse them rather than re-deriving from scratch.
+- **Fonts are bigger than the original med_disclosure_checklist baseline**: eyebrow 40px, hook-slide
+  title 84px, bullets/checklist-card title 66-74px, checklist card heading 50px, body/bullet text
+  42px, card sub text 36px. Bump further only if the user asks — this is already a deliberate
+  increase over the original (title 64 / body 32), don't regress back down.
+- **Bullet text auto-wraps** — at 42px, a full-width Korean sentence can overflow the 1080px
+  canvas (this happened once, right edge got clipped). `wrap_text()` in
+  `gen-implant-aftercare-carousel.py` splits on spaces to fit `max_width`; always route bullet
+  strings through it instead of assuming a single line fits.
+
+**Palette rotation (set by the user 2026-09-01, extended 2026-09-07): 진녹색(green) →
+네이비(navy) → 와인색(wine) → 황토색(ochre) → repeat**, one palette per carousel post, cycling
+in that order. Four palettes, same structure (`BG`/`CARD`/`INK`/`INK_SOFT`/`ACCENT`):
+- **navy** (used for 임플란트 상담 체크리스트, 2026-08-31, 1st post — predates the rotation rule):
+  bg `#0A1428`, card `#132444`, ink `#F0F4FA`, ink-soft `#A3B3D1`, accent `#7AA8FF`
+- **green** (used for 발치 전 복용약물 고지 체크리스트, 2026-09-01, 1st post under the rotation
+  rule — so it's the cycle's starting point): bg `#0A1F16`, card `#112D20`, ink `#F0FAF4`,
+  ink-soft `#A3C9B3`, accent `#6ED9A0`
+- **wine** (not used yet): bg `#200C14`, card `#381622`, ink `#FAF1F4`, ink-soft `#CEA3B3`,
+  accent `#E882A0`
+- **ochre** (used for 임플란트 시술 후 관리 체크리스트, 2026-09-07 — added to the rotation by
+  explicit user request, picked out of turn ahead of navy for this one post): bg `#4E3014`
+  (톤업된 밝은 황토색 — an earlier darker `#241608` draft was rejected as too dark), card
+  `#7C5228`, ink `#FFF8EE`, ink-soft `#E8C9A3`, accent `#EBB264`
+
+Next carousel should resume the normal sequence at **navy** (ochre was inserted ahead of its
+turn this one time), then **wine**, then **ochre** again, then back to **green**, etc. Check this
+list for the most recently used palette before picking the next one — don't just default to navy.
+
+**Pending (2026-09-07):** the ochre 임플란트 시술 후 관리 체크리스트 (8 slides, topic distinct
+from the navy 임플란트 상담/pre-op checklist) is generated and approved but **not yet published**
+— files sit at `assets/instagram_carousels/implant_aftercare_checklist/01.png`-`08.png`, user
+said to publish it later. Don't re-publish other carousels in the meantime without checking
+whether this one shipped first.
 
 **Content rules for this format, learned from user feedback the same session:**
 - **No price/discount framing at all** — the first draft said "저렴한 임플란트가 무조건 나쁜 건
