@@ -19,6 +19,19 @@ write the post text with photo-placement markers like `[사진: ...]`, don't att
   토순이** (corrected 2026-08-28 — 토순이 was this assistant's placeholder name, never the
   user's; even though the character model is visually a rabbit, the series title "건치의 하루"
   makes 건치 the character's actual name everywhere it's referred to in writing).
+- **의료광고법: 발행 전 매번 자가검토하고, 무엇을 확인했는지 사용자에게 보고할 것**
+  (2026-09-08 사용자 명시 지시: "의료광고법 저촉되는지 항상 신경써줘"). 블로그·캐러셀·릴스 캡션 등
+  병원 이름으로 나가는 모든 콘텐츠에 적용된다. 자동 생성 경로는 `lib/anthropic.ts`의 `GUARDRAILS`가
+  막아주지만, **캐러셀·수동 블로그 글은 사람이 쓰므로 같은 기준을 손으로 적용**해야 한다.
+  금지: 효과 보장·성공률, 치료 전후 비교, 환자 후기/체험담(창작 포함), 가격·할인·이벤트,
+  최상급(최고/1위/유일), 특정 시술이 항상 우월하다는 단정, 환자 유인성 표현.
+  권장: 부작용·한계 명시, "정확한 진단은 내원 후 상담" 마무리. 원장 본인의 임상 경험 서술은
+  후기가 아니라 저자 목소리라 허용. 경력·자격은 사실이고 검증 가능하면 기재 가능 —
+  다만 약력의 "임플란트 1만례 수술 기념패 수여"는 심의에서 '인증/보증'으로 읽힐 여지가 가장 큰
+  문구라고 사용자에게 한 번 안내해 뒀다(2026-09-08). 사용자가 빼자고 하면 전체 글에 일괄 반영할 것.
+- **발행 리듬(2026-09-08 사용자 지시): 건치 에피소드 영상 → 치과 상식 콘텐츠(캐러셀) → 건치 영상 →
+  ... 번갈아 올린다.** 같은 종류를 연달아 올리지 않는다. 대기 중인 캐러셀이 있어도 다음 건치
+  에피소드가 먼저 나가야 하므로, "이거 올릴까요?"를 묻기 전에 마지막 게시물이 뭐였는지부터 확인할 것.
 - **Instagram caption**: never include `#토순이` — the user explicitly asked for it excluded.
   Confirmed hashtag set (2026-08-28): `#건치의하루 #원주치과 #원주임플란트 #반곡동치과
   #치과검진 #스케일링 #치과`. Use this set (swap in whatever specific service the episode is
@@ -85,15 +98,32 @@ update the value directly in the Vercel project's Environment Variables — noth
 
 ## Getting a new BLOGGER_REFRESH_TOKEN
 
-Google OAuth refresh tokens for this "Desktop app" client don't expire from use, but do expire
-if: the user revokes access at https://myaccount.google.com/permissions, the OAuth consent
-screen is still in "Testing" mode and 7 days pass without... (actually testing-mode tokens are
-generally fine indefinitely for testing users, but re-check current Google policy if this ever
-breaks), or nobody's used it in 6 months. Re-run `npm run get-refresh-token` locally
-(`dental-blog-autopost/scripts/get-refresh-token.mjs`) — it spins up a localhost server on port
-53682, opens the OAuth consent URL, and prints a fresh refresh_token after the browser approval.
-Must be run by someone logged into the Google account that manages
-healthydentalwonju.blogspot.com.
+**확인됨 (2026-09-08): OAuth 동의화면이 "테스트(Testing)" 상태라 refresh token이 7일마다 만료된다.**
+예전 주석의 "테스트 모드 토큰은 무기한 괜찮을 것"이라는 추측은 틀렸다 — 8/28 발급된 토큰이 9/4에
+만료돼 **9/3 이후 크론이 전부 조용히 실패**했고(블로그에 새 글 0건), 아무 알림도 뜨지 않았다.
+
+**증상 판별.** 발행 스크립트가 Blogger에서 `401 Invalid Credentials`를 뱉으면 access token이 아니라
+refresh 단계가 죽은 것이다. 토큰 교환을 직접 때려보면 `400 invalid_grant: Token has been expired or
+revoked`가 나온다. 크론이 도는지 확인하려면 공개 피드가 제일 빠르다:
+`curl -s "https://healthydentalwonju.blogspot.com/feeds/posts/summary?alt=json&max-results=5"`
+— 최근 월/목에 글이 없으면 이 문제다.
+
+**복구 절차 (전부 해야 함 — 하나라도 빠지면 크론은 계속 죽어 있다):**
+1. `node --env-file=.env.local scripts/get-refresh-token.mjs` (백그라운드로 띄우고 출력의 승인 URL을
+   사용자에게 전달 — 사용자가 브라우저에서 승인하면 스크립트가 자동으로 토큰을 받아 출력한다).
+   블로그를 관리하는 구글 계정으로 승인해야 한다.
+2. `.env.local`의 `BLOGGER_REFRESH_TOKEN` 교체 → 토큰 refresh가 200 나오는지 먼저 확인.
+3. **Vercel 환경변수 교체**: `vercel env rm BLOGGER_REFRESH_TOKEN production --yes` 후
+   `printf '<token>' | vercel env add BLOGGER_REFRESH_TOKEN production`.
+   (이 변수는 production에만 등록돼 있다 — preview/development에는 없어서 rm이 "not found"를 낸다.)
+4. **반드시 재배포**: `vercel deploy --prod --yes`. 환경변수만 바꾸면 기존 배포는 옛 값을 계속 쓴다.
+   이 단계를 빼먹는 게 가장 흔한 실수다.
+5. `vercel crons ls`로 `/api/cron/generate-post` `0 0 * * 1,4`가 그대로인지 확인.
+
+**근본 해결 (아직 미완료 — 사용자가 직접 해야 함).** Google Cloud Console → API 및 서비스 →
+OAuth 동의 화면에서 **"앱 게시" / 프로덕션으로 전환**. blogger 스코프는 민감 스코프가 아니라
+Google 심사 없이 즉시 전환되고, 전환 후에는 refresh token이 만료되지 않는다. 2026-09-08에 안내했고
+사용자가 아직 전환하지 않았다면 **약 9/15경 또 만료된다** — 다음 세션에서 먼저 확인할 것.
 
 ## Known SDK gotcha (hit once already, worth not re-discovering)
 
@@ -137,12 +167,14 @@ Two established voices — pick based on what the user asks for (default to the 
 clinical voice unless they ask for the personal one, or the topic is patient-facing/anxiety-
 driven like this 치석 example):
 
-**Clinical/expert voice** (see `scripts/implant-guide-post.html` and `scripts/gum-health-post.html`):
+**Clinical/expert voice** (see `scripts/implant-guide-post.html`, `scripts/gum-health-post.html`,
+`scripts/implant-prosthesis-post.html`):
 teal header banner div, numbered/bulleted sections, a comparison table where it fits the topic,
 closing with 표경열 원장's real credentials for E-E-A-T, then the standard "정확한 진단은 상담 후"
 close. No mascot, no casual voice — deliberately more clinical/expert than the episode posts.
 
-**Personal 1인칭 voice** (added 2026-09-02, see `scripts/tartar-guide-post.html` — 치석 article):
+**Personal 1인칭 voice** (added 2026-09-02, see `scripts/tartar-guide-post.html` — 치석 article,
+and `scripts/sensitive-teeth-post.html` — 시린 이 article, 2026-09-08):
 user asked for posts that read "진짜 손으로 쓴글처럼" (like something the doctor genuinely wrote
 by hand), opening with a specific spoken-style pattern: "안녕하세요, 원주에서 치과를 진료하고
 있는 치과의사 표경열입니다." → "환자분들께서 가장 많이 문의주시는 부분 중 하나가 '[주제]'입니다."
@@ -157,6 +189,13 @@ voice) before the credentials box. Same guardrails apply regardless of voice (no
 promises, no before/after, no testimonials, no discounts) — the doctor's own first-person
 clinical-experience commentary ("여러 사례를 진료해 온 경험에 비추어 보면...") is fine and is
 not a testimonial, since it's the author's voice, not a quoted patient.
+
+**전문가용 콘텐츠를 환자용으로 옮겨 쓰는 패턴 (2026-09-08).** 사용자가 동종업계용 인스타 릴스
+(예: @alchada3355의 "임플란트 보철 SCRP" 설명)를 보내며 "이런 내용도 좋다"고 하는 경우가 있다.
+그대로 옮기지 말고 **환자가 읽을 수 있는 언어로 다시 쓸 것** — 사용자가 명시적으로 확인해준 방향이다.
+약어(SCRP 등)는 한 번 풀어주되 완전히 숨기지는 않고, "내 임플란트는 어떻게 되어 있나"처럼
+환자 관점의 질문으로 프레이밍한다. 원장 약력(임플란트 1만례·임상외래교수)과 붙어 E-E-A-T에 유리해서
+이런 소재는 적극적으로 받아도 된다. 같은 내용을 블로그 글 + 캐러셀 양쪽으로 내는 것이 기본 패턴.
 
 **After publishing, push the topic onto the Redis history** (`lpush dental-blog:recent-topics
 "<short topic label>"` via the same REST pattern used elsewhere) even though this wasn't the
@@ -298,10 +337,16 @@ Rendered with the same PIL-overlay approach as the shorts captions (see geonchi-
 draw each slide as a full PNG via `PIL.ImageDraw`/`ImageFont`, no ffmpeg involved here since
 there's no video, just static images published directly. A reusable generator (palette dict +
 slide-type helpers: title/bullets/checklist-card/closing) lives at
-`scripts/gen-med-disclosure-carousel.py` (older/original layout) and
-`scripts/gen-implant-aftercare-carousel.py` (2026-09-07 revision — **use this one as the base for
-new carousels**, it has the current layout conventions below) — copy and adapt per new carousel
+`scripts/gen-med-disclosure-carousel.py` (older/original layout),
+`scripts/gen-implant-aftercare-carousel.py` (2026-09-07 layout revision) and
+`scripts/gen-implant-prosthesis-carousel.py` (2026-09-08 — **use this one as the base for new
+carousels**; aftercare 레이아웃에 아래 두 가지가 더 붙어 있다) — copy and adapt per new carousel
 topic rather than rebuilding the PIL layout from scratch each time.
+- **불릿 오버플로 자동 축소.** `slide_bullets`가 42px로 배치해보고 하단 푸터(y=1230)를 넘기면
+  40 → 38 → 36px로 한 단계씩 줄여 다시 배치한다. 3줄 제목 + 4개 불릿 조합에서 실제로 푸터를
+  덮어써서 넣은 장치다 — 새 세트에서도 이 함수를 그대로 가져다 쓸 것.
+- **설명용 단면 다이어그램 슬라이드**(`slide_diagram`). 임플란트 3부품(크라운/지대주/픽스처) +
+  잇몸·잇몸뼈를 PIL 프리미티브로 그리고 리더 라인으로 라벨을 단다. 스톡 사진 대신 쓰는 표준 패턴.
 
 **Layout conventions, revised 2026-09-07 after user feedback on the 임플란트 시술 후 관리
 체크리스트 carousel — apply these to every new carousel, not just that one:**
@@ -330,22 +375,33 @@ in that order. Four palettes, same structure (`BG`/`CARD`/`INK`/`INK_SOFT`/`ACCE
 - **green** (used for 발치 전 복용약물 고지 체크리스트, 2026-09-01, 1st post under the rotation
   rule — so it's the cycle's starting point): bg `#0A1F16`, card `#112D20`, ink `#F0FAF4`,
   ink-soft `#A3C9B3`, accent `#6ED9A0`
-- **wine** (not used yet): bg `#200C14`, card `#381622`, ink `#FAF1F4`, ink-soft `#CEA3B3`,
-  accent `#E882A0`
+- **wine** (used for 소아 치아 관리 체크리스트, 2026-09-04): bg `#200C14`, card `#381622`,
+  ink `#FAF1F4`, ink-soft `#CEA3B3`, accent `#E882A0`
 - **ochre** (used for 임플란트 시술 후 관리 체크리스트, 2026-09-07 — added to the rotation by
   explicit user request, picked out of turn ahead of navy for this one post): bg `#4E3014`
   (톤업된 밝은 황토색 — an earlier darker `#241608` draft was rejected as too dark), card
   `#7C5228`, ink `#FFF8EE`, ink-soft `#E8C9A3`, accent `#EBB264`
 
-Next carousel should resume the normal sequence at **navy** (ochre was inserted ahead of its
-turn this one time), then **wine**, then **ochre** again, then back to **green**, etc. Check this
-list for the most recently used palette before picking the next one — don't just default to navy.
+navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 썼다 — 사용자가 "바탕은 파랑색"으로
+지정해서 순서상 차례와 맞아떨어졌다(`gen-implant-prosthesis-carousel.py`).
 
-**Pending (2026-09-07):** the ochre 임플란트 시술 후 관리 체크리스트 (8 slides, topic distinct
-from the navy 임플란트 상담/pre-op checklist) is generated and approved but **not yet published**
-— files sit at `assets/instagram_carousels/implant_aftercare_checklist/01.png`-`08.png`, user
-said to publish it later. Don't re-publish other carousels in the meantime without checking
-whether this one shipped first.
+**실제 발행 이력 (순서 판단은 이 표를 기준으로 — 로테이션 규칙만 보고 추측하지 말 것):**
+
+| # | 날짜 | 주제 | 팔레트 |
+| --- | --- | --- | --- |
+| 1 | 2026-08-31 | 임플란트 상담 전 체크리스트 (9장) | navy |
+| 2 | 2026-09-02 | 발치 전 복용약물 고지 (8장) | green |
+| 3 | 2026-09-04 | 소아 치아 관리 (8장) | wine |
+| 4 | 2026-09-08 | 임플란트 보철 연결 방식 / SCRP (9장) | navy |
+
+다음 차례는 **ochre** — 마침 대기 중인 시술 후 관리 세트가 ochre라 그대로 나가면 순서가 맞는다.
+그 다음은 green → navy → wine 순으로 돌린다.
+
+**Pending (2026-09-08 기준):** ochre "임플란트 시술 후 관리 체크리스트"(8장, navy 상담 체크리스트와
+주제가 다름)는 생성·승인 완료했지만 **아직 미발행**이다 —
+`assets/instagram_carousels/implant_aftercare_checklist/01.png`-`08.png`.
+**사용자가 순서를 못박았다: 건치 에피소드 영상을 먼저 올리고(2026-09-09 예정) 그 다음에 이 캐러셀.**
+그러니 다음 세션에서 "지금 올릴까요?"를 먼저 묻지 말고, 건치 영상이 나갔는지부터 확인할 것.
 
 **Content rules for this format, learned from user feedback the same session:**
 - **No price/discount framing at all** — the first draft said "저렴한 임플란트가 무조건 나쁜 건
@@ -459,6 +515,9 @@ instead of re-asking the user to redo finished steps:
 - [x] First manual curl test confirmed a real post landed on the blog (then deleted via the
       Blogger API + popped back off the Redis history list, to keep the topic available again)
 - [x] Cron job confirmed registered (`vercel crons ls`): Mon/Thu 00:00 UTC = 09:00 KST
+- [x] 2026-09-08: refresh token 만료로 죽어 있던 크론 복구 — 새 토큰 발급 → `.env.local` +
+      Vercel production 갱신 → `vercel deploy --prod` 재배포 → `vercel crons ls` 확인.
+      **OAuth 동의화면 프로덕션 전환은 사용자 미완료 상태**(위 refresh token 섹션 참고)
 - [ ] Not yet confirmed: an actual unattended scheduled fire (next Mon/Thu) — everything above
       was a manual trigger. If asked to verify later, check Vercel dashboard → Project → Cron
       Jobs → run history rather than re-triggering manually.
