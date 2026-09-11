@@ -11,6 +11,8 @@
 !output/*.png
 !output/*.jpg
 !output/*.jpeg
+# ...but not ad/campaign previews (Pages would serve them publicly)
+output/엘리베이터광고_*
 
 # Video/audio deliverables and generation sources — also OneDrive-only.
 # This repo is published as-is by GitHub Pages, so anything committed here is publicly
