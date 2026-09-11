@@ -11,3 +11,15 @@
 !output/*.png
 !output/*.jpg
 !output/*.jpeg
+
+# Video/audio deliverables and generation sources — also OneDrive-only.
+# This repo is published as-is by GitHub Pages, so anything committed here is publicly
+# downloadable from the homepage domain, and 10–30MB clips would bloat every clone.
+# (Two early mp4s in output/ were committed before this rule and stay tracked.)
+*.mp4
+*.mov
+*.wav
+*.m4a
+
+# Google OAuth client secret downloads — never commit these.
+client_secret_*.json

@@ -1,0 +1,14 @@
+{
+  "blogId": "healthy2275",
+  "profileDir": ".naver-profile",
+  "shotDir": ".naver-shots",
+  "loginTimeoutSec": 300,
+  "_comment": "selectors는 비워두면 스크립트 내장 후보 목록을 순서대로 시도한다. 네이버 에디터 UI가 바뀌어 스크립트가 요소를 못 찾으면 --inspect로 실제 DOM을 확인한 뒤 여기에 CSS 셀렉터를 넣어 덮어쓴다.",
+  "selectors": {
+    "title": "",
+    "body": "",
+    "tagInput": "",
+    "saveButton": "",
+    "publishButton": ""
+  }
+}

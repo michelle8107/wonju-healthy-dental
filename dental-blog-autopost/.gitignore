@@ -10,3 +10,11 @@ npm-debug.log*
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*
+
+# 네이버 블로그 자동화 (Playwright)
+# 크롬 영속 프로필에는 네이버 로그인 세션 쿠키가 들어있다 — 절대 커밋 금지.
+/.naver-profile/
+/.naver-shots/

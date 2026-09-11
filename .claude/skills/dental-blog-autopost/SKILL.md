@@ -154,9 +154,19 @@ posts — it has no idea a video episode exists. When "올려야지"-ing an epis
    whatever service the episode's theme naturally bridges to (진료 종류에 맞는 로컬 SEO 키워드,
    e.g. 원주임플란트 for anything implant-adjacent, 원주치과추천/정기검진/스케일링 generally).
    Reference example: `scripts/geonchi1-post.html`.
+   **Blob 파일명 충돌 주의:** `upload-blog-images.mjs`는 `blog/<파일명>`에 랜덤 접미사 없이 올린다.
+   6탄 글이 `blog/01.jpg`~`04.jpg`를 쓰고 있으므로 같은 이름으로 올리면 이전 글 이미지를 덮거나
+   업로드가 실패한다. 에피소드별 접두사를 붙일 것(7탄부터 `ep7_01.jpg` 식).
 4. Publish with `scripts/publish-geonchi-post.mjs <html-file> "<title>" "label1,label2"` — this
    appends the same `CLINIC_FOOTER` as the cron path (duplicated inline since scripts/ can't
    import the Next.js `lib/blogger.ts` — keep both copies in sync if the footer ever changes).
+   **The footer is in THREE places: `lib/blogger.ts`, `scripts/publish-geonchi-post.mjs`,
+   `scripts/update-geonchi-post.mjs`** (+ a style-less Naver variant in `naver-blog-core.mjs`).
+   Changing `lib/blogger.ts` only reaches the cron after `vercel deploy --prod --yes`.
+   **카카오톡 상담 버튼 (2026-09-11 사용자 요청):** 푸터 맨 위에 노란 `#FEE500` 버튼
+   "카카오톡으로 상담 문의하기" → `https://pf.kakao.com/_YCjxaX/chat` (홈페이지 퀵메뉴와 같은
+   채널; http는 308로 https에 리다이렉트되므로 https로 씀). 인라인 SVG 말풍선 아이콘 포함.
+   9/11 이전에 발행된 글에는 없다 — 소급 적용은 사용자가 원할 때만.
 
 ## One-off manual blog posts ("치과 관련 글 하나 더 써줘" — not tied to an episode or the cron)
 
@@ -393,6 +403,7 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 | 2 | 2026-09-02 | 발치 전 복용약물 고지 (8장) | green |
 | 3 | 2026-09-04 | 소아 치아 관리 (8장) | wine |
 | 4 | 2026-09-08 | 임플란트 보철 연결 방식 / SCRP (9장) | navy |
+| 5 | 2026-09-11 | 추석: 명절 음식별 치아 지키는 법 (8장) — https://www.instagram.com/p/DdIr6TylEtB/ | navy (사용자 지정) |
 
 다음 차례는 **ochre** — 마침 대기 중인 시술 후 관리 세트가 ochre라 그대로 나가면 순서가 맞는다.
 그 다음은 green → navy → wine 순으로 돌린다.
@@ -402,6 +413,23 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 `assets/instagram_carousels/implant_aftercare_checklist/01.png`-`08.png`.
 **사용자가 순서를 못박았다: 건치 에피소드 영상을 먼저 올리고(2026-09-09 예정) 그 다음에 이 캐러셀.**
 그러니 다음 세션에서 "지금 올릴까요?"를 먼저 묻지 말고, 건치 영상이 나갔는지부터 확인할 것.
+**2026-09-10: 사용자가 순서를 바꿨다 — "7탄부터 올릴꺼야. 황토색은 나중에".** 추석 시즌성 때문에
+건치 7탄(추석간식)을 6탄 바로 다음에 연달아 올렸다(릴스 https://www.instagram.com/reel/DdGgkjwCaBQ/ +
+블로그 https://healthydentalwonju.blogspot.com/2026/09/7-3.html). 번갈아 올리기 원칙보다 사용자의
+명시적 지시가 우선. ochre 캐러셀은 여전히 미발행 — 다음 게시물이 이것이다.
+
+**추석 시즌 세트 (2026-09-11 제작):** 사용자가 주제·색을 직접 골랐다 — 로테이션 예외.
+파랑 음식 편은 9/11 발행 완료, 황토 부모님 편은 아직 미발행(사용자가 음식 편을 먼저 고름).
+대기 캐러셀: 황토 부모님 편(추석 전 권장) + 황토 임플란트 시술 후 관리. 다음 게시는 건치 영상 차례.
+- 황토색 "고향 가면, 부모님 치아 이것만 봐주세요" (8장) — `assets/instagram_carousels/chuseok_parents_teeth/`,
+  `scripts/gen-chuseok-parents-carousel.py`
+- 파랑(navy) "명절 음식별 치아 지키는 법" (8장) — `assets/instagram_carousels/chuseok_food_guide/`,
+  `scripts/gen-chuseok-food-carousel.py`
+- 세 번째 "추석 연휴 치과 응급 대처법"은 사용자가 병원 연휴 진료 일정을 파악한 뒤 의뢰하기로 함 —
+  일정은 절대 추측해서 넣지 말 것.
+- 새 레이아웃 요소(이 두 스크립트가 최신 기준): 표지·마무리 장 반투명 보름달 모티프, 상단 8px 액센트 라인,
+  체크/음식 카드 좌측 골드(또는 은빛) 바, **불릿·카드 슬라이드 모두 블록 전체를 세로 중앙 정렬**
+  (기존 고정 y 앵커는 내용이 적으면 하단이 비어 보였음).
 
 **Content rules for this format, learned from user feedback the same session:**
 - **No price/discount framing at all** — the first draft said "저렴한 임플란트가 무조건 나쁜 건
@@ -518,6 +546,5 @@ instead of re-asking the user to redo finished steps:
 - [x] 2026-09-08: refresh token 만료로 죽어 있던 크론 복구 — 새 토큰 발급 → `.env.local` +
       Vercel production 갱신 → `vercel deploy --prod` 재배포 → `vercel crons ls` 확인.
       **OAuth 동의화면 프로덕션 전환은 사용자 미완료 상태**(위 refresh token 섹션 참고)
-- [ ] Not yet confirmed: an actual unattended scheduled fire (next Mon/Thu) — everything above
-      was a manual trigger. If asked to verify later, check Vercel dashboard → Project → Cron
-      Jobs → run history rather than re-triggering manually.
+- [x] 2026-09-10 (목): 무인 크론 발행 확인 — 공개 피드에 09:44 KST "입 안 건강이 몸 전체에 미치는
+      영향, 알고 계셨나요?"가 사람 개입 없이 올라왔다(9/8 토큰 복구 이후 첫 정기 발행).

@@ -49,10 +49,63 @@ photorealistic" prompt instead of describing the mouth interior, which fixed it.
 session's `drawtext` filter segfaults unconditionally on this machine regardless of fontconfig
 setup (see Captions section below) — worked around by rendering captions/title as PIL PNG overlays
 instead of drawtext; that workaround is now the default approach, don't retry drawtext first).
+`output/건치의 하루6편-시린이.mp4` (6탄 - 아이스크림 먹다 시린이 습격, D5, 최종 21.1s. Title
+card "시린이" — 2026-09-03 사용자 피드백으로 노출 시간을 씬 전체(0-12.5s)에서 **첫 1초만**으로
+수정(`enable='between(t,0,1.0)'`). Scene1 행복하게 아이스크림 한 입 → Scene2 갑자기 얼어붙은
+충격 표정("찌릿!") → Scene3 진정하고 공감 멘트("시린이, 나만 그런 거 아니었어요") → 로고
+아웃트로 위에 원인 안내("잇몸이 내려갔거나, 법랑질이 약해졌거나, 충치 때문일 수도 있대요") +
+CTA("심할 땐 꼭 확인받아보세요") 2줄, 마지막에 친 SFX. 로고 카드를 8.6s까지 늘려 두 줄 다
+얹었다 — 대사가 늘어나면 로고 카드 길이를 그만큼 늘리는 패턴은 4탄에서 확립된 것과 동일.
+제작 중 캐릭터/씬 자체는 이슈 없이 한 번에 깔끔하게 나왔고, 두 차례 사용자 피드백(타이틀
+노출 시간, 원인 정보 추가)으로 로고 아웃트로만 반복 수정.)
+`output/건치의 하루7편-추석간식.mp4` (7탄 - 추석 간식(송편·약과) 먹고 3초 관리법, D10, 2026-09-10
+제작, 20.9s. Title "추석 간식" 첫 1초만. Scene1 달밤 한옥 창가에서 송편 먹고 행복 → Scene2 씹다가
+얼어붙음("앗! 이에 끈적하게 달라붙었어요!", boing SFX를 freeze 순간에) → Scene3 물 한 모금 머금고
+볼 부풀려 가글 → 엄지척("3초면 끝이에요") → 로고 위 "그리고 양치는 꼭 잊지 마세요!" + "명절에 다시
+볼 사람, 저장해두세요!" + 차임. **Scene2 첫 테이크는 배경이 낮 + 대나무 찜기 딤섬으로 튀어서
+1·3과 연속성이 깨졌다** — "Nighttime ... full moon through lattice window ... half-moon songpyeon
+... No bamboo steamer, no dumplings"로 배경을 씬마다 명시하고 금지 요소를 적어 재생성해서 해결.
+명절/지역색 있는 음식은 모델이 중국풍으로 새기 쉬우니 처음부터 부정 프롬프트를 넣을 것.
+빌드 스크립트 + 원본 씬/내레이션은 `assets/geonchi_shorts/ep7_build/`에 보관.
+**v2 (같은 날, 사용자 피드백 "유익한 정보를 전달해줬음 좋겠어"):** "영상은 그대로, 나레이션이랑 캡션만
+수정" 지시. 설명 대사가 들어갈 자리가 없어서 **앞 씬 마지막 프레임을 슬로우 줌 정지컷(zoompan,
+4배 업스케일 후 z 1→1.08)으로 늘려** 시간을 확보했다 — 새 씬을 만들지 않고 길이를 늘리는 표준 방법으로
+쓸 것. 구성: 끈적 → (걱정 정지컷) "끈적한 간식은 이에 오래 붙어 있어서, 충치균이 좋아하는 당분도 오래
+남아요" → 가글 팁 → (엄지척 정지컷) "자기 전엔 꼭 양치하고 자세요!" → 로고 위 "자꾸 같은 자리에
+끼나요? 충치나 때운 곳의 틈, 벗겨진 실란트(치아 홈 코팅) 때문일 수도 있어요" → "추석 지나면 치과
+검진도 한 번 받아보세요!" + 차임. 33.3s. "저장" CTA 대사는 뺐다(인스타 캡션으로 옮길 것).
+사용자가 말한 "법랑질"은 음식 끼임의 원인으로는 부정확해서(시린이 쪽 원인, 6탄에서 이미 다룸) 빼고,
+"코팅"은 실란트로 정확히 살렸다. 2줄 자막(`\n`) 지원 포함 `build2.py`로 재빌드 가능. v1은
+`output/건치의 하루7편-추석간식_v1.mp4`로 보관. (사용자 지시 전에 새 씬 3개 — 거울/선생님/잠옷 양치 —
+를 이미 생성 제출해 크레딧 ~100 소모됐지만 미사용.))
+
 Content-calendar concepts to draw from live in `output/geonchi-content-calendar.html` (formats
 A/B/C, 4-week plan). Track which concepts have been used so future episodes don't repeat one.
 Used so far: D1(1탄 예약미루기), D12(2탄 스케일링), 3탄(양치비교, custom), 4탄(사랑니, custom),
-D19(5탄 새학기검진). Still unused: D3, D5, D8, D10, D15, D17, D22, D24, D26, D27.
+D19(5탄 새학기검진), D5(6탄 아이스크림 시린이), D10(7탄 추석간식). Still unused: D3, D8, D15,
+D17, D22, D24 (치료 전후 비교라 의료광고법상 그대로는 불가 — 쓰려면 비포/애프터 빼고 재구성),
+D26, D27 (D27 "사랑니는 무조건 빼야 한다?" now overlaps with 4탄 + the 2026-09-02 blog post on
+the same myth — deprioritize or reframe if picked later).
+
+**Publish status update (2026-09-10):** 사용자 확인 — "시린이까지 올렸어". 6탄도 게시 완료,
+1탄-6탄 전부 나감. 7탄(추석간식)도 같은 날 제작 → v2 수정 → **게시 완료** (사용자 지시로 캐러셀보다
+먼저): 릴스 https://www.instagram.com/reel/DdGgkjwCaBQ/ (Media ID 18487336861100410), 블로그
+https://healthydentalwonju.blogspot.com/2026/09/7-3.html (`dental-blog-autopost/scripts/geonchi7-post.html`).
+다음 에피소드는 8탄(미제작).
+
+**Publish status (as of 2026-09-03):** 1탄-5탄 published to both Instagram Reels + Blogger
+companion post. **6탄's Instagram Reel was published then manually deleted by the user the same
+day** — a "하지마" arrived right as the Instagram publish call completed (too late to stop it;
+Instagram publishing can't be undone via API), the user asked to hold 6탄 for next week instead,
+and deleted the live Reel themselves via the app. No Blogger companion post was ever made for
+6탄. **6탄 is effectively back to "제작 완료, 게시 예정"** — the finished file still exists at
+`output/건치의 하루6편-시린이.mp4`, just re-publish it (Instagram + Blogger this time) when the
+user says to, next week or whenever they ask. Don't re-publish it unprompted.
+
+Also a general lesson from this session: **don't log something as "발행 완료" until the publish
+call has actually been made and returned success** — the Notion report and this file's status
+line were both written to say 6탄 was fully published before the Instagram publish script had
+even been run, which was wrong at the time it was written.
 
 ## Voice
 

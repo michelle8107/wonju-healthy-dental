@@ -1,0 +1,42 @@
+[
+  {
+    "file": "scripts/implant-guide-post.html",
+    "title": "임플란트, 꼭 필요한 경우는 언제일까요? 진단부터 관리까지 A to Z",
+    "tags": ["원주치과", "원주임플란트", "임플란트", "원주건강한치과", "표경열원장"]
+  },
+  {
+    "file": "scripts/implant-checklist-post.html",
+    "title": "임플란트, 상담에서 무엇을 확인해야 할까요?",
+    "tags": ["원주치과", "원주임플란트", "임플란트", "원주치과추천", "반곡동치과"]
+  },
+  {
+    "file": "scripts/gum-health-post.html",
+    "title": "양치할 때 피가 난다면? 잇몸 건강, 이렇게 체크하세요",
+    "tags": ["원주치과", "잇몸치료", "잇몸출혈", "치주치료", "구강건강"]
+  },
+  {
+    "file": "scripts/tartar-guide-post.html",
+    "title": "치석, 꼭 없애야 할까요?",
+    "tags": ["원주치과", "원주스케일링", "스케일링", "치아건강", "정기검진"]
+  },
+  {
+    "file": "scripts/cavity-prevention-post.html",
+    "title": "충치, 초기에 발견하면 치료가 훨씬 간단해집니다",
+    "tags": ["원주치과", "충치예방", "충치치료", "치과검진", "치아건강"]
+  },
+  {
+    "file": "scripts/root-canal-post.html",
+    "title": "신경치료, 언제 필요하고 어떻게 진행될까요?",
+    "tags": ["원주치과", "신경치료", "치아건강", "원주치과추천", "반곡동치과"]
+  },
+  {
+    "file": "scripts/wisdom-tooth-guide-post.html",
+    "title": "사랑니, 꼭 빼야 할까요? 의학적 관점에서 정리한 발치 판단 기준",
+    "tags": ["원주치과", "원주사랑니", "사랑니발치", "원주치과추천", "표경열원장"]
+  },
+  {
+    "file": "scripts/pediatric-dental-post.html",
+    "title": "우리 아이 첫 치과 방문, 언제·어떻게 준비하면 좋을까요?",
+    "tags": ["원주치과", "원주소아진료", "치과검진", "구강건강", "원주건강한치과"]
+  }
+]
