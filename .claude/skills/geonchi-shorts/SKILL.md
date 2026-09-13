@@ -78,11 +78,23 @@ CTA("심할 땐 꼭 확인받아보세요") 2줄, 마지막에 친 SFX. 로고 �
 "코팅"은 실란트로 정확히 살렸다. 2줄 자막(`\n`) 지원 포함 `build2.py`로 재빌드 가능. v1은
 `output/건치의 하루7편-추석간식_v1.mp4`로 보관. (사용자 지시 전에 새 씬 3개 — 거울/선생님/잠옷 양치 —
 를 이미 생성 제출해 크레딧 ~100 소모됐지만 미사용.))
+`output/건치의 하루8편-연휴치통.mp4` (8탄 - 추석 연휴에 갑자기 이가 아플 때, custom(사용자가 "추석이랑
+관련된 것" → 4개 후보 중 선택), 2026-09-13 제작, 41.4s. Title "연휴 치통" 첫 1초. Scene1 달밤 한옥
+기지개 → Scene2 얼어붙었다 볼 잡고 울먹(찌릿 zap SFX, numpy 합성 — build.py `make_zap`) → 울먹 정지컷에
+"연휴라 치과도 쉬는데 어떡하죠? / 당황하지 말고 이렇게 해보세요" → Scene3 수건 감싼 냉찜질 → 엄지척
+("볼 바깥 찬 찜질, 아픈 쪽으로 씹지 않기") → 엄지척 정지컷 "진통제는 설명서대로, 약을 잇몸에 직접 대지
+않기" → **Scene2 볼 잡는 구간 재사용 + 정지컷**으로 "얼굴이 붓거나 열이 나면 129·119에서 문 연 병원 안내"
+→ 로고 위 "원주 건강한치과는 9월 24일(목)~27일(일) 휴진 / 28일(월)부터 정상 진료" + 차임. 휴진 일정은
+사용자 확인값(추측 금지 규칙은 dental-blog-autopost 참고). 3컷 모두 첫 테이크 사용(~100 크레딧).
+**알려진 흠: 씬1·2 접시의 떡이 주름 잡힌 만두/군만두처럼 나왔다** — "half-moon songpyeon" + "no
+dumplings"를 넣었는데도 그랬다. 다음에 송편을 화면에 둘 땐 "smooth, pleat-free, pastel-colored
+songpyeon on pine needles"처럼 모양을 더 구체적으로 적을 것. **Jua 폰트에 가운뎃점 "·" 글리프가
+없어서 두부(□)로 렌더됨** — 자막엔 "·" 대신 "나/또는/," 사용. 빌드: `assets/geonchi_shorts/ep8_build/build.py`.)
 
 Content-calendar concepts to draw from live in `output/geonchi-content-calendar.html` (formats
 A/B/C, 4-week plan). Track which concepts have been used so future episodes don't repeat one.
 Used so far: D1(1탄 예약미루기), D12(2탄 스케일링), 3탄(양치비교, custom), 4탄(사랑니, custom),
-D19(5탄 새학기검진), D5(6탄 아이스크림 시린이), D10(7탄 추석간식). Still unused: D3, D8, D15,
+D19(5탄 새학기검진), D5(6탄 아이스크림 시린이), D10(7탄 추석간식), 8탄(연휴 치통 응급대처, custom). Still unused: D3, D8, D15,
 D17, D22, D24 (치료 전후 비교라 의료광고법상 그대로는 불가 — 쓰려면 비포/애프터 빼고 재구성),
 D26, D27 (D27 "사랑니는 무조건 빼야 한다?" now overlaps with 4탄 + the 2026-09-02 blog post on
 the same myth — deprioritize or reframe if picked later).
