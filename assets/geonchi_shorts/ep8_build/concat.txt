@@ -1,0 +1,8 @@
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p0.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p1.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p2.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p3.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p4.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p5.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p6.mp4'
+file 'D:\OneDrive\Claude_Dental Clinic\assets\geonchi_shorts\ep8_build/p7.mp4'
