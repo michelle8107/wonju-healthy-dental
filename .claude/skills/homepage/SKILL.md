@@ -56,6 +56,17 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - `google<hash>.html` at repo root is the Google Search Console ownership-verification file —
   keep it forever ("확인이 완료된 후에도 파일을 삭제하지 마세요" per Google's own instructions).
 
+## 세션 시작 자동 점검 (SessionStart hook, added 2026-09-14)
+
+사용자 지시: "이 폴더 구동시킬 때마다 AI에서 검색 잘 될 수 있도록 현재 state를 점검해줘".
+`.claude/settings.json`의 SessionStart(`startup`) hook이 `.claude/hooks/ai-visibility-check.py`를 실행한다(약 2초).
+- 자동 확인: 라이브 홈페이지의 Dentist JSON-LD·viewport·description·canonical·치과지식 메뉴, knowledge/sitemap/robots/og 응답,
+  홈페이지 안 인스타 계정 링크 불일치, 미푸시 커밋·커밋 안 된 홈페이지 변경, 블로그 최근 발행일(4일 초과 경고)·Blogger 토큰 갱신,
+  인스타 최근 게시일, **치과지식 페이지(carousels.json)에 없는 발행 캐러셀**.
+- 수동 체크리스트: `.claude/ai-visibility-state.json` — 구글 비즈니스 프로필, 네이버 스마트플레이스/서치어드바이저, 서치콘솔 도메인 속성,
+  모두닥·굿닥 관리자 인증, 인스타 링크 확인, 인트로 문구 검토. **항목이 끝나면 status를 `done`으로 바꿀 것.**
+- 결과는 additionalContext로 들어오고, 세션 첫 응답에서 사용자에게 짧게 보고한다. 새 점검 항목이 필요하면 스크립트에 함수 추가.
+
 ## 인트로 배경음악 (`#intro-audio`, 교체 2026-09-14)
 
 인트로 스플래시(약 10.3초 후 자동 닫힘, 클릭 시 즉시 닫히며 음악 페이드아웃)의 음악은 `<audio id="intro-audio">`에

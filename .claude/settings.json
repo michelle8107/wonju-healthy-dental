@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/ai-visibility-check.py\"",
+            "timeout": 60,
+            "statusMessage": "AI/검색 노출 상태 점검 중..."
+          }
+        ]
+      }
+    ]
+  }
+}

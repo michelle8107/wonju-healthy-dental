@@ -1,0 +1,13 @@
+{
+  "_comment": "AI/검색 노출 점검 체크리스트. 자동으로 확인할 수 없는(병원 계정·본인 인증이 필요한) 항목의 진행 상태. 완료되면 status를 done으로, 날짜를 done_date에 적는다. .claude/hooks/ai-visibility-check.py 가 세션 시작마다 읽어 미완료 항목을 보고한다.",
+  "manual_items": [
+    {"id": "google_business_profile", "title": "구글 비즈니스 프로필(구글 지도) 등록·인증", "status": "in_progress", "note": "2026-09-14 등록 진행 시작. 인증(우편/전화/영상)은 원장님 본인"},
+    {"id": "naver_smartplace", "title": "네이버 스마트플레이스 정보 완비(진료시간·사진·홈페이지 링크)", "status": "pending", "note": ""},
+    {"id": "naver_searchadvisor", "title": "네이버 서치어드바이저 사이트 등록 + sitemap 제출", "status": "pending", "note": "인증 파일/메타태그 받으면 홈페이지에 추가"},
+    {"id": "gsc_domain_property", "title": "구글 서치콘솔 도메인 속성(healthydental.co.kr) + sitemap 제출", "status": "pending", "note": "현재 www URL 접두어 속성만 있음 — www는 apex로 301"},
+    {"id": "modoodoc_claim", "title": "모두닥 병원 관리자 인증(정보공개 동의)", "status": "pending", "note": "https://www.modoodoc.com/hospital/49821/"},
+    {"id": "goodoc_claim", "title": "굿닥 병원 관리자 인증·전화번호 확인", "status": "pending", "note": "https://www.goodoc.co.kr/hospitals/217460 (050 번호 노출)"},
+    {"id": "instagram_link", "title": "홈페이지 퀵메뉴 인스타 링크 계정 확인", "status": "pending", "note": "퀵메뉴 healthy22752026 vs 발행 계정 healthydental2275"},
+    {"id": "intro_caption_ad_law", "title": "인트로 문구 '한치의 오차도 허용하지 않는 임플란트 수술' 의료광고법 검토", "status": "pending", "note": ""}
+  ]
+}
