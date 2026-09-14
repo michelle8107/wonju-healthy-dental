@@ -56,6 +56,27 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - `google<hash>.html` at repo root is the Google Search Console ownership-verification file —
   keep it forever ("확인이 완료된 후에도 파일을 삭제하지 마세요" per Google's own instructions).
 
+## 구글 지도 등록 (Google Business Profile, 시도 2026-09-14 — 미완료)
+
+사용자가 "구글 지도 등록해줘"라고 해서 반자동으로 진행: 로그인·최종 본인 인증(우편/전화/영상)은 사용자, 정보 입력은 Claude.
+- **방식:** 별도 프로필의 실제 크롬을 원격 디버깅 포트로 띄우고, 매 단계 Playwright `connect_over_cdp`로 붙어서
+  스크린샷→입력→분리한다(Bash 호출마다 프로세스가 끝나도 브라우저 세션이 유지됨). 스크립트가 크롬을 직접 launch하면
+  구글 로그인이 자동화 브라우저로 막히기 쉬워서 이 방식을 썼다. 비밀번호는 절대 받거나 입력하지 않는다.
+  ```
+  "/c/Program Files/Google/Chrome/Application/chrome.exe" --remote-debugging-port=9333 \
+    --user-data-dir="C:\Users\MYP\AppData\Local\healthydental-chrome-gbp" --no-first-run \
+    --no-default-browser-check "https://business.google.com/create"      # run_in_background
+  ```
+  로그인 감지는 백그라운드 Python 루프(CDP 연결 60초 재시도 → 5초마다 URL이 accounts.google.com을 벗어났는지 확인, 30분 제한).
+- **입력값:** 이름 `건강한치과의원`(간판·사업자 상호 그대로 — "원주 임플란트" 같은 키워드를 붙이면 정지 위험, "전문" 표현도 금지),
+  카테고리 `치과`, 주소 `강원특별자치도 원주시 건강로 21, 2층 (반곡동, 조은빌딩)`, 전화 `033-734-2275`,
+  웹사이트 `https://healthydental.co.kr`, 진료시간 월·수·금 10–13·14–19 / 화 10–13·14–21 / 목 14–21 / 토 10–14 / 일 휴무.
+  **최종 제출 전에 입력 화면 스크린샷을 사용자에게 보여주고 확인받기로 약속함.**
+- **진행 기록:** 첫 창은 로그인 전에 닫힘 → 재실행 후 30분간 로그인 없음 → 그 뒤 **PC 메모리 부족으로 크롬 프로세스가 강제 종료**.
+  입력·제출된 내용 없음. 사용자에게 탭/프로그램을 정리한 뒤 "구글 지도 등록 다시 해줘"라고 요청하도록 안내함.
+  재개 시 위 명령으로 창을 열고, 로그인 확인 후 입력 단계부터 진행. 등록·인증이 끝나면 `.claude/ai-visibility-state.json`의
+  `google_business_profile`을 `done`으로.
+
 ## 세션 시작 자동 점검 (SessionStart hook, added 2026-09-14)
 
 사용자 지시: "이 폴더 구동시킬 때마다 AI에서 검색 잘 될 수 있도록 현재 state를 점검해줘".
@@ -105,7 +126,7 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
   오른쪽 아래로 옮기고 기본 접힘(본문을 가렸음), `.cta-inner`의 `padding: … 0`이 `.wrap` 좌우 여백을 지워서 `padding-block`으로.
 - **Search Console 속성이 `https://www.healthydental.co.kr/`(URL 접두어)인데 www는 apex로 301된다** → apex 속성
   (또는 DNS TXT 도메인 속성) 추가 + sitemap 제출은 사용자 계정에서 해야 한다고 안내함.
-- 지도·플랫폼 등록은 병원 계정/본인 인증이 필요해 대신 못 한다: 구글 비즈니스 프로필(미등록), 네이버 스마트플레이스,
+- 지도·플랫폼 등록은 병원 계정 로그인/본인 인증이 필요하다(구글 비즈니스 프로필은 아래 "구글 지도 등록" 절의 반자동 방식), 네이버 스마트플레이스,
   모두닥(`/hospital/49821`, 리뷰 5 · "정보공개 미동의" 상태), 굿닥(`/hospitals/217460`, 050 번호 노출) — 둘 다 심평원 데이터로
   이미 자동 등록돼 있고 필요한 건 병원 관리자 인증(클레임). 리뷰 요청은 가능하지만 대가 제공은 의료법 27조 환자 유인.
 - 의료광고법 메모: 인트로 캡션 "한치의 오차도 허용하지 않는 임플란트 수술"은 절대적 표현이라 심의 리스크 — 사용자에게 알림, 미변경.
