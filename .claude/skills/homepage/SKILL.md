@@ -56,6 +56,14 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - `google<hash>.html` at repo root is the Google Search Console ownership-verification file —
   keep it forever ("확인이 완료된 후에도 파일을 삭제하지 마세요" per Google's own instructions).
 
+## 인트로 배경음악 (`#intro-audio`, 교체 2026-09-14)
+
+인트로 스플래시(약 10.3초 후 자동 닫힘, 클릭 시 즉시 닫히며 음악 페이드아웃)의 음악은 `<audio id="intro-audio">`에
+**base64 인라인 mp3**로 들어 있다. 2026-09-14 사용자 지정곡으로 교체: `Claude_Marketing Program/Music/Late Morning Jazz.mp3`
+(Suno 생성곡, artist 태그 woondream) 앞 11초를 잘라 페이드인 0.3초·페이드아웃 9.6~11초, loudnorm I=-18, 128kbps.
+교체 방법: ffmpeg로 11초 클립 → Python으로 `data:audio/...;base64,...` 부분만 정규식 치환(파일을 Read로 열지 말 것).
+브라우저 자동재생 정책 때문에 소리 있는 자동재생은 대개 막히고, 첫 터치/클릭 때 재생을 재시도하는 구조다.
+
 ## 치과지식 페이지 (`knowledge.html`, added 2026-09-14)
 
 인스타그램 캐러셀(카드뉴스)을 바둑판(3열, 모바일 2열)으로 모아 보여주는 페이지. 상단 메뉴 "치과지식"으로 연결.
