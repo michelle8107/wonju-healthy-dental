@@ -420,7 +420,7 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 
 **추석 시즌 세트 (2026-09-11 제작):** 사용자가 주제·색을 직접 골랐다 — 로테이션 예외.
 파랑 음식 편은 9/11 발행 완료, 황토 부모님 편은 아직 미발행(사용자가 음식 편을 먼저 고름).
-대기 캐러셀: 황토 부모님 편(추석 전 권장) + 황토 임플란트 시술 후 관리. 다음 게시는 건치 영상 차례.
+대기 캐러셀: 황토 부모님 편(추석 전 권장) + 황토 임플란트 시술 후 관리. **2026-09-14 건치 8탄(연휴 치통) 릴스+블로그 게시 완료 → 다음 게시는 캐러셀 차례.**
 - 황토색 "고향 가면, 부모님 치아 이것만 봐주세요" (8장) — `assets/instagram_carousels/chuseok_parents_teeth/`,
   `scripts/gen-chuseok-parents-carousel.py`
 - 파랑(navy) "명절 음식별 치아 지키는 법" (8장) — `assets/instagram_carousels/chuseok_food_guide/`,
@@ -452,6 +452,13 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
   PIL primitives (rectangles/ellipses/polygons + leader-line labels) — e.g. a implant
   cross-section showing crown/abutment/fixture/bone. Zero copyright exposure since it's authored
   in-session, and it reads as more credible/clinical than a stock photo would anyway.
+
+**캐러셀을 발행하면 홈페이지 치과지식 페이지에도 반드시 추가 (2026-09-14 사용자 지시 "앞으로 캐러셀 업로드하면,
+치과지식 페이지에도 넣어줘").** 저장소 루트 `knowledge/carousels.json` **맨 앞**에 항목 추가 —
+`slug`(영문 kebab), `src`(PNG 폴더), `date`, `category`(기존 값 재사용: 임플란트/소아 진료/진료 준비/생활 관리 등),
+`title`(표지 문구), `summary`(인스타 캡션을 1~2문장으로 — 의료광고법 기준 유지, 가격·효과 보장 금지),
+`instagram`(발행 후 Graph API로 받은 permalink). 그다음 `PYTHONIOENCODING=utf-8 python knowledge/build.py` →
+`knowledge.html` + `knowledge/` 커밋·푸시(GitHub Pages 배포). 자세한 구조는 `homepage` 스킬의 치과지식 페이지 절.
 
 After a carousel ships, do the same follow-through as any other manual post: push the topic onto
 `dental-blog:recent-topics` in Redis (see the one-off blog post section above), and if a

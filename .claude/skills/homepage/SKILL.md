@@ -56,6 +56,22 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - `google<hash>.html` at repo root is the Google Search Console ownership-verification file —
   keep it forever ("확인이 완료된 후에도 파일을 삭제하지 마세요" per Google's own instructions).
 
+## 치과지식 페이지 (`knowledge.html`, added 2026-09-14)
+
+인스타그램 캐러셀(카드뉴스)을 바둑판(3열, 모바일 2열)으로 모아 보여주는 페이지. 상단 메뉴 "치과지식"으로 연결.
+표지를 누르면 `#<slug>` 해시로 전체화면 슬라이드 뷰어가 열린다(스와이프·화살표·키보드, 뒤로가기로 닫힘).
+
+- **`knowledge.html`은 생성물이다 — 직접 고치지 말 것.** `knowledge/carousels.json`(최신순)을 고치고
+  `PYTHONIOENCODING=utf-8 python knowledge/build.py` 실행. PNG 원본(`assets/instagram_carousels/<폴더>`)을
+  `knowledge/img/<slug>/NN.jpg` + `cover.jpg`로 변환한다(.gitignore에 `!knowledge/img/**/*.jpg` 예외 있음).
+- 스타일·헤더·퀵메뉴·푸터는 빌드 때 `index.html`에서 복사한다(`#앵커` → `index.html#앵커`). **index.html
+  헤더/푸터/CSS를 바꾸면 빌드를 다시 돌려야** 두 페이지 모양이 맞는다.
+- 발행된 캐러셀만 넣는다(2026-09-14 사용자 선택). 새 캐러셀 추가 절차는 `dental-blog-autopost` 스킬 참고.
+- canonical/og URL은 apex `https://healthydental.co.kr` — `www`는 apex로 301 리다이렉트된다.
+- 같은 날 index.html에 좁은 화면 헤더 CSS 수정(메뉴 패널을 헤더 아래 전체 폭으로, 병원명 줄바꿈 방지)을 넣었다.
+  **index.html 자체에는 여전히 viewport meta·meta description·구조화 데이터(JSON-LD)가 없다** — 실제 휴대폰에서는
+  데스크톱 화면이 축소돼 보인다. 사용자에게 알렸고 아직 변경하지 않았다(knowledge.html에는 넣었음).
+
 ## Business/trust facts — verified against the actual 사업자등록증 (2026-08-31)
 
 Source document: `d:\OneDrive\문서\15_사업자등록증(기타)\건강한 치과.jpg`.

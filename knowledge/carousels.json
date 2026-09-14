@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "chuseok-food-guide",
+    "src": "assets/instagram_carousels/chuseok_food_guide",
+    "date": "2026-09-11",
+    "category": "생활 관리",
+    "title": "명절 음식별 치아 지키는 법",
+    "summary": "송편·약과부터 식혜, 견과류, 갈비까지. 명절 음식을 먹고 난 뒤 치아를 편안하게 관리하는 방법을 음식별로 정리했습니다.",
+    "instagram": "https://www.instagram.com/p/DdIr6TylEtB/"
+  },
+  {
+    "slug": "implant-prosthesis-types",
+    "src": "assets/instagram_carousels/implant_prosthesis_types",
+    "date": "2026-09-08",
+    "category": "임플란트",
+    "title": "내 임플란트, 어떻게 고정되어 있을까요?",
+    "summary": "나사 유지형과 시멘트 유지형의 차이, 두 방식을 합친 SCRP 방식까지. 어떤 방식이 적합한지는 잇몸·뼈 상태와 임플란트 위치에 따라 달라집니다.",
+    "instagram": "https://www.instagram.com/p/DdAlKwWGHS1/"
+  },
+  {
+    "slug": "pediatric-care-checklist",
+    "src": "assets/instagram_carousels/pediatric_care_checklist",
+    "date": "2026-09-04",
+    "category": "소아 진료",
+    "title": "우리 아이 치아, 제대로 관리하고 계신가요?",
+    "summary": "유치 관리 습관이 영구치 건강까지 이어집니다. 매일 완벽하지 않아도 괜찮아요, 꾸준히 챙기면 좋은 습관을 체크리스트로 정리했습니다.",
+    "instagram": "https://www.instagram.com/p/Dc3G14XFPIW/"
+  },
+  {
+    "slug": "med-disclosure-checklist",
+    "src": "assets/instagram_carousels/med_disclosure_checklist",
+    "date": "2026-09-02",
+    "category": "진료 준비",
+    "title": "치과 진료 전, 이 약 드시고 계신가요?",
+    "summary": "혈전용해제, 골다공증약, 당뇨약처럼 평소 드시는 약에 따라 지혈 시간, 마취 방법, 진료 시기가 달라질 수 있습니다. 진료 전 꼭 말씀해주세요.",
+    "instagram": "https://www.instagram.com/p/DcyYlq5lCgk/"
+  },
+  {
+    "slug": "implant-checklist",
+    "src": "assets/instagram_carousels/implant_checklist",
+    "date": "2026-08-31",
+    "category": "임플란트",
+    "title": "임플란트를 고민하고 계신가요?",
+    "summary": "얼마나 오래 쓸 수 있을지, 나에게 맞을지 고민되는 게 당연합니다. 상담 전에 알아두면 도움이 되는 확인 사항을 정리했습니다.",
+    "instagram": "https://www.instagram.com/p/DctNAa5m24a/"
+  }
+]

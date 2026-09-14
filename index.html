@@ -333,6 +333,25 @@
     font-size: 0.95rem;
   }
 
+  /* 좁은 화면: 메뉴 패널을 헤더 아래 전체 폭으로 펼치고, 병원명이 두 줄로 깨지지 않게 */
+  @media (max-width: 820px) {
+    details.mobile-menu[open] .mobile-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      box-shadow: 0 8px 18px rgba(16, 30, 51, 0.08);
+    }
+    .brand-mark { white-space: nowrap; }
+  }
+  @media (max-width: 420px) {
+    .nav-row { gap: 0.75rem; }
+    .brand-mark { font-size: 1.08rem; }
+    .header-actions { gap: 0.4rem; }
+    .header-actions .btn-primary { padding: 0.55rem 0.8rem; font-size: 0.82rem; }
+  }
+
   /* Hero */
   .hero {
     padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4rem);
@@ -944,6 +963,7 @@
       <a href="#about">의료진</a>
       <a href="#hours">진료시간</a>
       <a href="#location">오시는길</a>
+      <a href="knowledge.html">치과지식</a>
     </nav>
     <div class="header-actions">
       <a class="btn btn-ghost btn-ghost-desktop" href="#location">오시는 길</a>
@@ -968,6 +988,7 @@
       <a href="#about">의료진</a>
       <a href="#hours">진료시간</a>
       <a href="#location">오시는길</a>
+      <a href="knowledge.html">치과지식</a>
     `;
     d.appendChild(panel);
   });

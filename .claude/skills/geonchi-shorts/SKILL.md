@@ -103,7 +103,7 @@ the same myth — deprioritize or reframe if picked later).
 1탄-6탄 전부 나감. 7탄(추석간식)도 같은 날 제작 → v2 수정 → **게시 완료** (사용자 지시로 캐러셀보다
 먼저): 릴스 https://www.instagram.com/reel/DdGgkjwCaBQ/ (Media ID 18487336861100410), 블로그
 https://healthydentalwonju.blogspot.com/2026/09/7-3.html (`dental-blog-autopost/scripts/geonchi7-post.html`).
-다음 에피소드는 8탄(미제작).
+**8탄(연휴치통) 게시 완료 (2026-09-14):** 릴스 https://www.instagram.com/reel/DdQAR67kVgz/ (Media ID 17945083011313522), 블로그 https://healthydentalwonju.blogspot.com/2026/09/8.html (`dental-blog-autopost/scripts/geonchi8-post.html`, 캡처 `blog/ep8_01~05.jpg`). 다음 에피소드는 9탄(미제작).
 
 **Publish status (as of 2026-09-03):** 1탄-5탄 published to both Instagram Reels + Blogger
 companion post. **6탄's Instagram Reel was published then manually deleted by the user the same

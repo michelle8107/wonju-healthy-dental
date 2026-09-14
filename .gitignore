@@ -11,6 +11,8 @@
 !output/*.png
 !output/*.jpg
 !output/*.jpeg
+# 치과지식 페이지(knowledge.html)가 서빙하는 캐러셀 이미지 — knowledge/build.py가 생성
+!knowledge/img/**/*.jpg
 # ...but not ad/campaign previews (Pages would serve them publicly)
 output/엘리베이터광고_*
 
