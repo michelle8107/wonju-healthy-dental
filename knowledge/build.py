@@ -380,5 +380,15 @@ page = f"""<!doctype html>
 """
 
 OUT.write_text(page, encoding="utf-8", newline="\n")
+
+# sitemap.xml — robots.txt 가 가리킨다. 치과지식 페이지 lastmod 는 가장 최근 캐러셀 날짜.
+latest = max((it["date"] for it in items), default="")
+sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{SITE}/</loc></url>
+  <url><loc>{SITE}/knowledge.html</loc>{f"<lastmod>{latest}</lastmod>" if latest else ""}</url>
+</urlset>
+"""
+(ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8", newline="\n")
 total = sum(len(v["slides"]) for v in data.values())
 print(f"knowledge.html 생성 완료: 캐러셀 {len(items)}개, 슬라이드 {total}장, {OUT.stat().st_size / 1024:.0f}KB")

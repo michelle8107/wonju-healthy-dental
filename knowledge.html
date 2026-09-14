@@ -782,7 +782,7 @@
     color: var(--on-primary);
   }
   .cta-inner {
-    padding: clamp(2.5rem, 6vw, 3.5rem) 0;
+    padding-block: clamp(2.5rem, 6vw, 3.5rem);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -867,6 +867,8 @@
     .qm-cap { padding: 0.8rem 0; font-size: 0.56rem; }
     .qm-item { padding: 0.65rem 0.3rem; font-size: 0.6rem; }
     .qm-icon { width: 30px; height: 30px; }
+    /* 휴대폰: 본문을 가리지 않도록 오른쪽 아래에 두고 기본은 접힘 */
+    .quick-menu { top: auto; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); transform: none; }
   }
 
   /* Footer */
@@ -1170,6 +1172,7 @@
   (function () {
     var menu = document.querySelector('.quick-menu');
     if (!menu) return;
+    if (window.matchMedia('(max-width: 640px)').matches) menu.classList.add('qm-collapsed');
     var toggle = menu.querySelector('.qm-toggle');
     var top = menu.querySelector('.qm-top');
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

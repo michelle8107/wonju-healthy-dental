@@ -13,6 +13,8 @@
 !output/*.jpeg
 # 치과지식 페이지(knowledge.html)가 서빙하는 캐러셀 이미지 — knowledge/build.py가 생성
 !knowledge/img/**/*.jpg
+# 링크 미리보기(og:image)·구조화 데이터 대표 이미지
+!/og-image.jpg
 # ...but not ad/campaign previews (Pages would serve them publicly)
 output/엘리베이터광고_*
 

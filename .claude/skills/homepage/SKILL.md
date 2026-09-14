@@ -69,8 +69,27 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - 발행된 캐러셀만 넣는다(2026-09-14 사용자 선택). 새 캐러셀 추가 절차는 `dental-blog-autopost` 스킬 참고.
 - canonical/og URL은 apex `https://healthydental.co.kr` — `www`는 apex로 301 리다이렉트된다.
 - 같은 날 index.html에 좁은 화면 헤더 CSS 수정(메뉴 패널을 헤더 아래 전체 폭으로, 병원명 줄바꿈 방지)을 넣었다.
-  **index.html 자체에는 여전히 viewport meta·meta description·구조화 데이터(JSON-LD)가 없다** — 실제 휴대폰에서는
-  데스크톱 화면이 축소돼 보인다. 사용자에게 알렸고 아직 변경하지 않았다(knowledge.html에는 넣었음).
+  (같은 날 뒤이어 index.html에 viewport·메타·JSON-LD를 넣었다 — 아래 "검색/AI 노출 기반" 절.)
+
+## 검색/AI 노출 기반 (added 2026-09-14)
+
+사용자가 "ChatGPT에 원주 임플란트 추천을 물으면 우리 병원이 안 나온다"고 해서 넣은 작업. AI 답변은 지도 평점·리뷰·
+공개 가격·구조화된 병원 정보가 많은 곳을 고른다.
+- index.html 맨 앞에 `<!doctype html><html lang="ko"><head>` + charset/**viewport**/description/canonical/og 태그 +
+  **`Dentist` JSON-LD**(주소·전화·요일별 진료시간(점심 분리)·개설일·대표원장·진료항목·sameAs)를 넣고
+  `</style>` 뒤에 `</head><body>`, 파일 끝에 `</body></html>`를 닫았다. 진료시간·주소를 바꾸면 **JSON-LD도 같이 고칠 것**.
+- sameAs 인스타는 API로 확인한 발행 계정 `healthydental2275`. **퀵메뉴 인스타 링크는 `healthy22752026`으로 달라서
+  사용자에게 확인 요청함**(어느 쪽이 맞는지 답 오면 둘 다 맞출 것).
+- `robots.txt`(Sitemap 지정) + `sitemap.xml`(knowledge/build.py가 매 빌드마다 재생성) + `og-image.jpg`(1200×630, 로고+주소+전화,
+  .gitignore 예외).
+- viewport를 넣으면서 실제 휴대폰에서 모바일 레이아웃이 처음으로 적용됐다 → 두 가지 수정: 폰(≤640px)에서 퀵메뉴를
+  오른쪽 아래로 옮기고 기본 접힘(본문을 가렸음), `.cta-inner`의 `padding: … 0`이 `.wrap` 좌우 여백을 지워서 `padding-block`으로.
+- **Search Console 속성이 `https://www.healthydental.co.kr/`(URL 접두어)인데 www는 apex로 301된다** → apex 속성
+  (또는 DNS TXT 도메인 속성) 추가 + sitemap 제출은 사용자 계정에서 해야 한다고 안내함.
+- 지도·플랫폼 등록은 병원 계정/본인 인증이 필요해 대신 못 한다: 구글 비즈니스 프로필(미등록), 네이버 스마트플레이스,
+  모두닥(`/hospital/49821`, 리뷰 5 · "정보공개 미동의" 상태), 굿닥(`/hospitals/217460`, 050 번호 노출) — 둘 다 심평원 데이터로
+  이미 자동 등록돼 있고 필요한 건 병원 관리자 인증(클레임). 리뷰 요청은 가능하지만 대가 제공은 의료법 27조 환자 유인.
+- 의료광고법 메모: 인트로 캡션 "한치의 오차도 허용하지 않는 임플란트 수술"은 절대적 표현이라 심의 리스크 — 사용자에게 알림, 미변경.
 
 ## Business/trust facts — verified against the actual 사업자등록증 (2026-08-31)
 
