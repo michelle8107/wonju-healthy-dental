@@ -392,6 +392,10 @@ in that order. Four palettes, same structure (`BG`/`CARD`/`INK`/`INK_SOFT`/`ACCE
   (톤업된 밝은 황토색 — an earlier darker `#241608` draft was rejected as too dark), card
   `#7C5228`, ink `#FFF8EE`, ink-soft `#E8C9A3`, accent `#EBB264`
 
+- **골드/노랑(gold)** (2026-09-17 사용자 지정 "캐러셀 노랑색 바탕" — 기존 ochre가 갈색에 가까워
+  노란 쪽으로 새로 뽑았다): bg `#3A2C08`, card `#5C4712`, ink `#FFFBEE`, ink-soft `#E9D9A6`,
+  accent `#F5C838`. 정의는 `scripts/sinus_lift_diagram.py` 상단(캐러셀·영상이 같은 값을 공유).
+
 navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 썼다 — 사용자가 "바탕은 파랑색"으로
 지정해서 순서상 차례와 맞아떨어졌다(`gen-implant-prosthesis-carousel.py`).
 
@@ -421,6 +425,7 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 **추석 시즌 세트 (2026-09-11 제작):** 사용자가 주제·색을 직접 골랐다 — 로테이션 예외.
 파랑 음식 편은 9/11 발행 완료, 황토 부모님 편은 아직 미발행(사용자가 음식 편을 먼저 고름).
 대기 캐러셀: 황토 부모님 편(추석 전 권장) + 황토 임플란트 시술 후 관리. **2026-09-14 건치 8탄(연휴 치통) 릴스+블로그 게시 완료 → 다음 게시는 캐러셀 차례.**
+**2026-09-17 사용자 결정: 상악동 거상술(영상+캐러셀) 게시물 다음 순서로 "고향 가면 부모님 치아" 황토 편을 올린다.**
 - 황토색 "고향 가면, 부모님 치아 이것만 봐주세요" (8장) — `assets/instagram_carousels/chuseok_parents_teeth/`,
   `scripts/gen-chuseok-parents-carousel.py`
 - 파랑(navy) "명절 음식별 치아 지키는 법" (8장) — `assets/instagram_carousels/chuseok_food_guide/`,
@@ -452,6 +457,35 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
   PIL primitives (rectangles/ellipses/polygons + leader-line labels) — e.g. a implant
   cross-section showing crown/abutment/fixture/bone. Zero copyright exposure since it's authored
   in-session, and it reads as more credible/clinical than a stock photo would anyway.
+
+## 영상 + 캐러셀 혼합 게시물 (2026-09-17 신규)
+
+인스타 캐러셀은 **이미지와 영상을 한 게시물에 섞을 수 있다.** 사용자 지시("그래피컬한 영상과 캐러셀을
+혼합해서 같이 올리자")로 처음 시도한 형식 — 1번 칸에 설명 영상, 2번부터 카드뉴스.
+
+`scripts/publish-instagram-carousel.mjs`를 이 형식에 맞게 고쳐 뒀다 (2026-09-17):
+- 파일 필터에 `mp4` 추가. `00_video.mp4` → `01.png` 순으로 정렬되도록 이름을 붙인다.
+- mp4는 `media_type=VIDEO` + `video_url`로 자식 컨테이너를 만들고, **인코딩이 끝날 때까지
+  (`status_code == FINISHED`) 기다린 뒤에** 부모 캐러셀에 넣는다. 이미지는 즉시 넣어도 된다.
+- 영상 첫 프레임이 곧 피드 썸네일이므로, 영상 맨 앞을 타이틀 카드로 고정할 것(페이드인 금지).
+
+### 상악동 거상술 뼈이식 (제작 중 — 다음 세션에서 이어서)
+
+사용자가 참조 릴스를 주고 "뼈이식하는 걸 그래피컬하게 재구현"을 요청했다. 진행 상태와 남은 순서는
+**`assets/instagram_carousels/sinus_lift_bonegraft/higgsfield-shot-plan.md`에 전부 적어 뒀다** —
+새 세션에서는 그 파일부터 읽을 것.
+
+완성된 것: 캐러셀 8장(골드 팔레트, `gen-sinus-lift-carousel.py`), 캡션(`caption.txt`, 의료광고법 검토
+완료), ASMR 오디오(`gen-sinus-lift-anim.py`의 `build_audio()` — numpy로 합성, 사용자 평가 "소리는 좋다").
+
+**영상은 다시 만들어야 한다.** 2D 모식도(`sinus_lift_diagram.py`) → "직관적이지 않다, 3D로" 반려 →
+자체 SDF 3D 렌더러(`sinus_lift_3d.py`) → "이건 영 모르겠어" 반려 → **Higgsfield 생성으로 확정.**
+시술 설명 영상은 앞으로 처음부터 Higgsfield로 갈 것(2D 도식으로 시작하지 말 것).
+
+ASMR 사운드 합성은 재사용 가치가 있다: 룸톤(로우패스 화이트노이즈) + 장면별 효과음(버 패스,
+점막 마찰+크래클, 알갱이 낙하, 천 스침, 상승 패드, 라쳇 클릭)을 numpy로 만들어 `place()`로
+타임라인에 배치한다. **cumsum 브라운 노이즈는 쓰지 말 것** — 랜덤워크라 뒤로 갈수록 레벨이 커져
+장면별 음량이 들쭉날쭉해진다(실제로 겪음).
 
 **캐러셀을 발행하면 홈페이지 치과지식 페이지에도 반드시 추가 (2026-09-14 사용자 지시 "앞으로 캐러셀 업로드하면,
 치과지식 페이지에도 넣어줘").** 저장소 루트 `knowledge/carousels.json` **맨 앞**에 항목 추가 —

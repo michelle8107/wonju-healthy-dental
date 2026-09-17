@@ -29,3 +29,6 @@ output/엘리베이터광고_*
 
 # Google OAuth client secret downloads — never commit these.
 client_secret_*.json
+
+# Python 캐시
+__pycache__/

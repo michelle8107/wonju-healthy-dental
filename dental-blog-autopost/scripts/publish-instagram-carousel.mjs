@@ -1,6 +1,8 @@
-// 로컬 이미지 여러 장을 Vercel Blob에 올리고 Instagram 캐러셀(카드뉴스)로 발행한다.
+// 로컬 이미지/영상을 Vercel Blob에 올리고 Instagram 캐러셀(카드뉴스)로 발행한다.
 // 사용법: node --env-file=.env.local scripts/publish-instagram-carousel.mjs <images-dir> "<caption>"
-// images-dir 안의 이미지 파일들을 파일명 순서대로 캐러셀에 넣는다 (최대 10장).
+// images-dir 안의 파일들을 파일명 순서대로 캐러셀에 넣는다 (최대 10장).
+// png/jpg는 이미지 항목, mp4는 영상 항목(media_type=VIDEO)으로 들어간다 — 혼합 가능.
+// (2026-09-17 추가: 상악동 거상술 모식도 영상 + 카드뉴스를 한 게시물로 묶기 위해 영상 지원)
 
 import { put } from "@vercel/blob";
 import fs from "node:fs";
@@ -67,16 +69,30 @@ async function sleep(ms) {
 
 const files = fs
   .readdirSync(imagesDir)
-  .filter((f) => /\.(png|jpe?g)$/i.test(f))
+  .filter((f) => /\.(png|jpe?g|mp4)$/i.test(f))
   .sort();
 
 if (files.length < 2) {
-  console.error("캐러셀은 이미지가 최소 2장 필요합니다:", imagesDir);
+  console.error("캐러셀은 항목이 최소 2개 필요합니다:", imagesDir);
   process.exit(1);
 }
 if (files.length > 10) {
-  console.error("캐러셀은 이미지가 최대 10장까지 가능합니다. 현재:", files.length);
+  console.error("캐러셀은 항목이 최대 10개까지 가능합니다. 현재:", files.length);
   process.exit(1);
+}
+
+async function waitForContainer(id, accessToken, label) {
+  let status = "IN_PROGRESS";
+  for (let i = 0; i < 40 && status === "IN_PROGRESS"; i++) {
+    await sleep(3000);
+    const res = await fetch(
+      `https://graph.instagram.com/v23.0/${id}?fields=status_code&access_token=${accessToken}`
+    );
+    const data = await res.json();
+    status = data.status_code;
+    console.log(`  ${label} 상태: ${status} (${(i + 1) * 3}초 경과)`);
+  }
+  return status;
 }
 
 const accessToken = await getValidAccessToken();
@@ -87,7 +103,8 @@ for (const file of files) {
   console.log(`업로드 중: ${file} -> Vercel Blob`);
   const fileBuffer = fs.readFileSync(filePath);
   const ext = path.extname(file).toLowerCase();
-  const contentType = ext === ".png" ? "image/png" : "image/jpeg";
+  const isVideo = ext === ".mp4";
+  const contentType = isVideo ? "video/mp4" : ext === ".png" ? "image/png" : "image/jpeg";
   const blob = await put(`instagram/carousel-${Date.now()}-${file}`, fileBuffer, {
     access: "public",
     token: BLOB_READ_WRITE_TOKEN,
@@ -95,14 +112,13 @@ for (const file of files) {
   });
   console.log("  공개 URL:", blob.url);
 
+  const params = isVideo
+    ? { media_type: "VIDEO", video_url: blob.url, is_carousel_item: "true", access_token: accessToken }
+    : { image_url: blob.url, is_carousel_item: "true", access_token: accessToken };
   const createRes = await fetch(`https://graph.instagram.com/v23.0/${IG_USER_ID}/media`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      image_url: blob.url,
-      is_carousel_item: "true",
-      access_token: accessToken,
-    }),
+    body: new URLSearchParams(params),
   });
   const createData = await createRes.json();
   if (!createRes.ok) {
@@ -110,6 +126,15 @@ for (const file of files) {
     process.exit(1);
   }
   console.log("  컨테이너 ID:", createData.id);
+
+  // 영상 자식은 인코딩이 끝나야 부모 캐러셀에 넣을 수 있다
+  if (isVideo) {
+    const status = await waitForContainer(createData.id, accessToken, file);
+    if (status !== "FINISHED") {
+      console.error(`영상 항목 처리 실패 또는 타임아웃 (status: ${status})`);
+      process.exit(1);
+    }
+  }
   childIds.push(createData.id);
 }
 
@@ -132,16 +157,7 @@ if (!parentRes.ok) {
 const containerId = parentData.id;
 console.log("캐러셀 컨테이너 ID:", containerId, "— 처리 대기 중...");
 
-let status = "IN_PROGRESS";
-for (let i = 0; i < 24 && status === "IN_PROGRESS"; i++) {
-  await sleep(3000);
-  const statusRes = await fetch(
-    `https://graph.instagram.com/v23.0/${containerId}?fields=status_code&access_token=${accessToken}`
-  );
-  const statusData = await statusRes.json();
-  status = statusData.status_code;
-  console.log(`  상태: ${status} (${(i + 1) * 3}초 경과)`);
-}
+const status = await waitForContainer(containerId, accessToken, "캐러셀");
 
 if (status !== "FINISHED") {
   console.error(`캐러셀 처리 실패 또는 타임아웃 (status: ${status})`);
