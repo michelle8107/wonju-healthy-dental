@@ -45,3 +45,28 @@
 3. `publish-instagram-carousel.mjs <폴더> "<caption.txt 내용>"` 로 영상+8장 한 게시물 발행
 4. `knowledge/carousels.json` 맨 앞에 항목 추가 → `python knowledge/build.py` → 커밋·푸시
 5. Redis `dental-blog:recent-topics`에 주제 추가
+
+## 2026-09-18 1차 생성 결과 (텍스트→영상, 레퍼런스 없음, 130크레딧 차감)
+클립: `dental-blog-autopost/scripts/_sinus_hf_clips/shot{1,2,3,5}.mp4` (720x1280, 5.04초), 컷별 콘택트시트 `sheet*.jpg`
+| # | job_id | 판정 |
+|---|---|---|
+| 1 | 3b109743-76b8-4c5a-b73e-5f7be9374009 | 쓸 만함 — 두개골 측면, 어금니 자리로 줌인 |
+| 2 | b5066dd7-d5f3-45a7-b268-6564d0794d33 | **해부학적으로 틀림** — 뼈가 아니라 치아 머리에 구멍(충치처럼 보임) |
+| 3 | 0dbd9bfa-5a92-46dc-af7f-f55b0701bba9 | 쓸 만함 — 렌즈형 공간에서 분홍 점막이 위로 들림 |
+| 4 | 9b684e07-2820-416c-9f5c-3de4c0b6edb8 | NSFW 필터 오탐으로 실패(크레딧 환불) — 프롬프트 표현 바꿔 재시도 필요 |
+| 5 | 14c48960-5f27-4df0-9f34-6edcfc24c7d7 | **틀림** — 임플란트가 멀쩡한 치아를 뚫고 위로 길게 솟음 |
+
+교훈: 텍스트만으로는 seedance가 "뼈 vs 치아" 구분을 못 한다. 해부 구조를 고정하려면 스틸 이미지를 먼저 만들고
+(이미지 생성은 싸서 반복 가능) 그 이미지를 시작 프레임/레퍼런스로 영상화하는 편이 낫다.
+
+합성 스크립트: `dental-blog-autopost/scripts/gen-sinus-lift-video.py` (인트로 2.6초 + 4.6초×5컷 + 아웃트로 3.2초 = 28.8초,
+자막·ASMR을 새 타이밍으로 재배치, 아웃트로에 "AI로 생성한 3D 애니메이션" 고지). caption.txt도 같은 고지로 수정(원본은 caption_2d_backup.txt).
+
+## 2026-09-18 결정 변경: 영상 중단 → 3D 스틸 캐러셀 (사용자 "그냥 스틸 이미지로 형상화하자, 동영상 하지말고")
+- 스틸은 `gpt_image_2_5`(장당 1크레딧). 단면도는 기준 1장(`anatomy`)을 만든 뒤 **이전 결과를 레퍼런스로 편집을 이어가서**
+  (점막 거상 → 이식재 → 임플란트) 구도·재질을 일치시켰다. 텍스트만으로 영상 생성했을 때 생긴 해부 오류가 없었다.
+- 원본: `src_3d/` (anatomy / step1_window / step2_lift / step3_graft / step4_implant). job_id: ed69dacb(anatomy), 2b42fdd6(window),
+  4dc1ed3f(lift), 0bf687ae(graft), 7117316e(implant).
+- 캐러셀 10장으로 재구성(`gen-sinus-lift-carousel.py`의 `slide_image`), 각 그림 장에 AI 생성 고지. 옛 2D 영상은 `_archive_2d/`로 옮김
+  (발행 스크립트가 폴더의 mp4를 집어가므로 최상위에 두면 안 됨).
+- 남은 순서: 사용자 확인 → 발행 → knowledge/carousels.json → Redis. 영상 합성 스크립트 `gen-sinus-lift-video.py`는 미사용.
