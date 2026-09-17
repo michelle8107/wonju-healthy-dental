@@ -408,6 +408,7 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 | 3 | 2026-09-04 | 소아 치아 관리 (8장) | wine |
 | 4 | 2026-09-08 | 임플란트 보철 연결 방식 / SCRP (9장) | navy |
 | 5 | 2026-09-11 | 추석: 명절 음식별 치아 지키는 법 (8장) — https://www.instagram.com/p/DdIr6TylEtB/ | navy (사용자 지정) |
+| 6 | 2026-09-18 | 임플란트 뼈이식 / 상악동 거상술 (10장, 3D 그림) — https://www.instagram.com/p/DdZdToJgYKm/ | gold |
 
 다음 차례는 **ochre** — 마침 대기 중인 시술 후 관리 세트가 ochre라 그대로 나가면 순서가 맞는다.
 그 다음은 green → navy → wine 순으로 돌린다.
@@ -469,7 +470,23 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
   (`status_code == FINISHED`) 기다린 뒤에** 부모 캐러셀에 넣는다. 이미지는 즉시 넣어도 된다.
 - 영상 첫 프레임이 곧 피드 썸네일이므로, 영상 맨 앞을 타이틀 카드로 고정할 것(페이드인 금지).
 
-### 상악동 거상술 뼈이식 (제작 중 — 다음 세션에서 이어서)
+### 시술 설명용 3D 스틸 제작 (2026-09-18 확립 — 새 시술 캐러셀은 이 방식으로)
+
+Higgsfield `gpt_image_2_5`, **장당 1크레딧**. 순서:
+1. 기준 단면도 1장을 텍스트로 생성(참고 스타일 이미지를 `image_references`로 넣으면 색/재질이 고정된다).
+2. **그 결과 job_id를 다시 `image_references`로 넣어 "이 그림에서 X만 바꿔라"로 편집을 연쇄**시킨다.
+   상악동 세트는 얇은 뼈 → 점막 거상 → 이식재 충전 → 임플란트 식립 4장을 이렇게 이어 만들었다.
+   구도·조명·재질이 그대로 유지돼 캐러셀에서 단계가 비교된다.
+3. 카드 슬라이드에 얹는 건 `gen-sinus-lift-carousel.py`의 `slide_image()` — 둥근 모서리 크롭 + 상단 그라데이션 +
+   지시선 라벨(`labels=[(텍스트, (원본x, 원본y), (라벨x, 라벨y))]`) + 하단 설명 2줄 + AI 생성 고지.
+   원본은 캐러셀 폴더의 `src_3d/`에 두고, 발행 스크립트가 집어가지 않게 최상위엔 두지 않는다.
+4. **AI로 만든 그림임을 슬라이드·캡션·블로그에 모두 명시**한다("이해를 돕기 위해 AI로 생성한 3D 그림으로,
+   실제 구조와 차이가 있습니다"). 실제 환자 사진으로 오인되면 의료광고법상 위험하다.
+
+영상(seedance 텍스트→영상)은 뼈와 치아를 혼동해 해부학적으로 틀린 컷이 나왔다(5컷 중 2컷 폐기, 1컷 NSFW 오탐).
+시술 설명은 스틸 캐러셀이 기본, 영상은 사용자가 따로 요청할 때만.
+
+### 상악동 거상술 뼈이식 (2026-09-18 발행 완료)
 
 사용자가 참조 릴스를 주고 "뼈이식하는 걸 그래피컬하게 재구현"을 요청했다. 진행 상태와 남은 순서는
 **`assets/instagram_carousels/sinus_lift_bonegraft/higgsfield-shot-plan.md`에 전부 적어 뒀다** —
@@ -534,6 +551,18 @@ granular — break the week's work into many concrete line items rather than 2-3
 per the user's explicit ask that it "하는일이 많아보이게" (make the volume of work visible). Add
 a new week's section at the **top** (`position: {"type": "start"}`) each week rather than
 replacing the previous one — it's a running log, older weeks stay.
+
+**2일 주기 자동 업데이트 루틴 (2026-09-18 사용자 지시 "2일에 한번씩 자동으로 한일 올려줘").**
+클라우드 routine `trig_01AQwyPiipyDMiSAw1Q7SozK` ("원주 건강한치과 노션 리포트 자동 업데이트 (2일마다)",
+cron `0 13 */2 * *` = 22:00 KST, 모델 sonnet-5, Notion 커넥터만 연결, 저장소 clone 없음).
+루틴이 하는 일: Blogger 공개 피드 + 네이버 블로그 RSS(`https://rss.blog.naver.com/healthy2275.xml`)로
+이틀치 실제 발행물을 확인 → 노션 주간 표 맨 아래에 날짜 행 추가. **확인된 것만 사실대로 적고**,
+확인된 활동이 없는 날은 사용자가 상시 수기로 하는 "네이버 블로그 글 작성·등록 / 영수증 리뷰 확인·답글 관리
+(수기 진행)"만 기록한다 — 사용자가 명시적으로 지시한 항목이다. 그 외 신규 제작·발행·시스템 구축을
+임의로 지어내는 것은 여전히 금지([[feedback-no-fabricated-reports]] 원칙 유지).
+루틴 관리: https://claude.ai/code/routines/trig_01AQwyPiipyDMiSAw1Q7SozK
+※ 인스타 발행 이력은 토큰이 로컬 `.env.local`에만 있어 클라우드에서 확인 불가 — 인스타/영상 작업이 있었던
+날은 이 세션에서 직접 노션에 적어야 한다.
 
 **Daily evening update (added 2026-08-30):** the user asked for an entry every evening, even on
 days with no visible content shipped, framed as ongoing internal engine/infra work — since this

@@ -40,14 +40,14 @@
     {
       "id": "instagram_link",
       "title": "홈페이지 퀵메뉴 인스타 링크 계정 확인",
-      "status": "pending",
-      "note": "퀵메뉴 healthy22752026 vs 발행 계정 healthydental2275"
+      "status": "done",
+      "note": "2026-09-18 사용자 확인: healthydental2275가 실제 계정. index.html 퀵메뉴·knowledge.html·블로그 초안 링크 모두 통일."
     },
     {
       "id": "intro_caption_ad_law",
       "title": "인트로 문구 '한치의 오차도 허용하지 않는 임플란트 수술' 의료광고법 검토",
-      "status": "pending",
-      "note": ""
+      "status": "done",
+      "note": "2026-09-18 완화 반영: \"한치의 오차도 허용하지 않는 임플란트 수술\" → \"CT로 확인하고 계획하는 임플란트 진료\"."
     }
   ]
 }

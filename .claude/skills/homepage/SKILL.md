@@ -96,6 +96,13 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 교체 방법: ffmpeg로 11초 클립 → Python으로 `data:audio/...;base64,...` 부분만 정규식 치환(파일을 Read로 열지 말 것).
 브라우저 자동재생 정책 때문에 소리 있는 자동재생은 대개 막히고, 첫 터치/클릭 때 재생을 재시도하는 구조다.
 
+**2026-09-18 변경(사용자 요청 "홈페이지 진입해도 계속 노래 나오게, 음악 off 버튼 조그맣게"):** 인트로가 닫혀도
+음악을 끄지 않는다 — `audio.loop = true`로 계속 재생하고 볼륨만 0.55 → 0.3으로 페이드한다. 인트로가 닫히는 시점에
+왼쪽 아래 `#bgm-toggle`(`.bgm-toggle`, 퀵메뉴가 오른쪽이라 왼쪽에 둠)이 페이드인하며, 누르면 페이드로 끄고/켠다.
+끈 상태는 `localStorage['bgm-off']='1'`로 기억해 다음 방문에 자동 재생하지 않는다. `play()`가 거부될 수 있으므로
+**반드시 `.catch`로 볼륨·라벨을 되돌릴 것**(안 그러면 볼륨 0에 라벨만 바뀐 채 멈춘다 — 실제로 한 번 겪음).
+라벨/아이콘 동기화는 `syncToggle()` 한 곳에서만 한다.
+
 ## 치과지식 페이지 (`knowledge.html`, added 2026-09-14)
 
 인스타그램 캐러셀(카드뉴스)을 바둑판(3열, 모바일 2열)으로 모아 보여주는 페이지. 상단 메뉴 "치과지식"으로 연결.
@@ -118,8 +125,8 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - index.html 맨 앞에 `<!doctype html><html lang="ko"><head>` + charset/**viewport**/description/canonical/og 태그 +
   **`Dentist` JSON-LD**(주소·전화·요일별 진료시간(점심 분리)·개설일·대표원장·진료항목·sameAs)를 넣고
   `</style>` 뒤에 `</head><body>`, 파일 끝에 `</body></html>`를 닫았다. 진료시간·주소를 바꾸면 **JSON-LD도 같이 고칠 것**.
-- sameAs 인스타는 API로 확인한 발행 계정 `healthydental2275`. **퀵메뉴 인스타 링크는 `healthy22752026`으로 달라서
-  사용자에게 확인 요청함**(어느 쪽이 맞는지 답 오면 둘 다 맞출 것).
+- 인스타 계정은 **`healthydental2275`로 통일됨**(2026-09-18 사용자 확인). sameAs·퀵메뉴(index/knowledge) 모두 이 계정.
+  `healthy22752026`은 쓰지 않는다.
 - `robots.txt`(Sitemap 지정) + `sitemap.xml`(knowledge/build.py가 매 빌드마다 재생성) + `og-image.jpg`(1200×630, 로고+주소+전화,
   .gitignore 예외).
 - viewport를 넣으면서 실제 휴대폰에서 모바일 레이아웃이 처음으로 적용됐다 → 두 가지 수정: 폰(≤640px)에서 퀵메뉴를
@@ -129,7 +136,8 @@ python3 -m http.server 8792   # plain http.server sends `Content-Type: text/html
 - 지도·플랫폼 등록은 병원 계정 로그인/본인 인증이 필요하다(구글 비즈니스 프로필은 아래 "구글 지도 등록" 절의 반자동 방식), 네이버 스마트플레이스,
   모두닥(`/hospital/49821`, 리뷰 5 · "정보공개 미동의" 상태), 굿닥(`/hospitals/217460`, 050 번호 노출) — 둘 다 심평원 데이터로
   이미 자동 등록돼 있고 필요한 건 병원 관리자 인증(클레임). 리뷰 요청은 가능하지만 대가 제공은 의료법 27조 환자 유인.
-- 의료광고법 메모: 인트로 캡션 "한치의 오차도 허용하지 않는 임플란트 수술"은 절대적 표현이라 심의 리스크 — 사용자에게 알림, 미변경.
+- 의료광고법: 인트로 캡션 "한치의 오차도 허용하지 않는 임플란트 수술"은 절대적 표현이라 **2026-09-18에
+  "CT로 확인하고 계획하는 임플란트 진료"로 완화 반영 완료**. 홈페이지 문구를 새로 쓸 때도 보장·단정·최상급 표현은 피할 것.
 
 ## Business/trust facts — verified against the actual 사업자등록증 (2026-08-31)
 
