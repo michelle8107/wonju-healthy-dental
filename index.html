@@ -1135,10 +1135,13 @@
         if (audio.paused) {
           muted = false;
           try { localStorage.removeItem('bgm-off'); } catch (e) {}
+          audio.loop = true;
           audio.volume = 0;
           var p = audio.play();
-          if (p && p.then) p.then(function () { fadeVolume(0.3); syncToggle(); });
-          else { fadeVolume(0.3); syncToggle(); }
+          if (p && p.then) {
+            p.then(function () { fadeVolume(0.3); syncToggle(); })
+             .catch(function () { audio.volume = 0.3; syncToggle(); });
+          } else { fadeVolume(0.3); syncToggle(); }
         } else {
           muted = true;
           try { localStorage.setItem('bgm-off', '1'); } catch (e) {}
