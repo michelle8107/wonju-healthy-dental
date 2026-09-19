@@ -94,16 +94,32 @@ songpyeon on pine needles"처럼 모양을 더 구체적으로 적을 것. **Jua
 Content-calendar concepts to draw from live in `output/geonchi-content-calendar.html` (formats
 A/B/C, 4-week plan). Track which concepts have been used so future episodes don't repeat one.
 Used so far: D1(1탄 예약미루기), D12(2탄 스케일링), 3탄(양치비교, custom), 4탄(사랑니, custom),
-D19(5탄 새학기검진), D5(6탄 아이스크림 시린이), D10(7탄 추석간식), 8탄(연휴 치통 응급대처, custom). Still unused: D3, D8, D15,
+D19(5탄 새학기검진), D5(6탄 아이스크림 시린이), D10(7탄 추석간식), 8탄(연휴 치통 응급대처, custom),
+D15(9탄 가족 치통). Still unused: D3, D8,
 D17, D22, D24 (치료 전후 비교라 의료광고법상 그대로는 불가 — 쓰려면 비포/애프터 빼고 재구성),
 D26, D27 (D27 "사랑니는 무조건 빼야 한다?" now overlaps with 4탄 + the 2026-09-02 blog post on
 the same myth — deprioritize or reframe if picked later).
+
+`output/건치의 하루9편-가족치통.mp4` (9탄 - 가족이 "이가 좀 아픈 것 같아"라고 할 때, 캘린더 D15
+공감 리액션 + 통증-상태 비례 아님 정보, 2026-09-19 제작, 40.5s. Title "가족 치통" 첫 1초.
+Scene1 소파에서 밝게 통화 → Scene2 웃음이 굳고 귀 쫑긋(저주파 lub-dub thump SFX) → 걱정 정지컷
+→ Scene3 손가락 들고 설명("치아는 아픈 정도랑 실제 상태가 꼭 비례하지 않아요 / 초기 충치는 거의
+안 아프고, 신경까지 간 뒤엔 오히려 통증이 잠깐 사라지기도 해요") → s2 재사용 + 정지컷으로 신호 3가지
+(가만히 있어도 욱신 / 밤에 더 아픔 / 씹을 때 아픔) → s3 미소 구간 재사용 "가족이 '좀 아프다'고 말할 땐,
+이미 며칠 참은 거예요" → 로고 위 추석 휴진 안내 + 차임. 3컷 모두 첫 테이크 사용(~100 크레딧).
+**씬2의 표정이 굳는 순간이 원본 3.35s로 늦어서 2.75s부터 잘라** 내레이션 직후(4.65s)에 오도록 맞췄다 —
+반전 컷은 원본 어디서 터지는지 프레임으로 먼저 확인하고 in-point를 정할 것.
+**Jua 폰트에 단따옴표 ' '(U+2018/2019)가 없어 두부(□)로 렌더됐다** (8탄의 가운뎃점 '·'와 같은 계열 문제).
+쌍따옴표 " "(U+201C/201D)는 있으니 그걸 쓸 것. 이제 `build.py`의 `assert_glyphs()`가 빌드 전에
+타이틀·자막 전체를 cmap과 대조해서 막으니, 새 에피소드는 그 함수를 그대로 가져갈 것.
+빌드: `assets/geonchi_shorts/ep9_build/build.py`.)
 
 **Publish status update (2026-09-10):** 사용자 확인 — "시린이까지 올렸어". 6탄도 게시 완료,
 1탄-6탄 전부 나감. 7탄(추석간식)도 같은 날 제작 → v2 수정 → **게시 완료** (사용자 지시로 캐러셀보다
 먼저): 릴스 https://www.instagram.com/reel/DdGgkjwCaBQ/ (Media ID 18487336861100410), 블로그
 https://healthydentalwonju.blogspot.com/2026/09/7-3.html (`dental-blog-autopost/scripts/geonchi7-post.html`).
-**8탄(연휴치통) 게시 완료 (2026-09-14):** 릴스 https://www.instagram.com/reel/DdQAR67kVgz/ (Media ID 17945083011313522), 블로그 https://healthydentalwonju.blogspot.com/2026/09/8.html (`dental-blog-autopost/scripts/geonchi8-post.html`, 캡처 `blog/ep8_01~05.jpg`). 다음 에피소드는 9탄(미제작).
+**8탄(연휴치통) 게시 완료 (2026-09-14):** 릴스 https://www.instagram.com/reel/DdQAR67kVgz/ (Media ID 17945083011313522), 블로그 https://healthydentalwonju.blogspot.com/2026/09/8.html (`dental-blog-autopost/scripts/geonchi8-post.html`, 캡처 `blog/ep8_01~05.jpg`).
+**9탄(가족치통) 게시 완료 (2026-09-19):** 릴스 https://www.instagram.com/reel/DdeR11Sio0A/ (Media ID 18383766148235579), 블로그 https://healthydentalwonju.blogspot.com/2026/09/9.html (`dental-blog-autopost/scripts/geonchi9-post.html`, 캡처 `blog/ep9_01~05.jpg`). 다음 에피소드는 10탄(미제작).
 
 **Publish status (as of 2026-09-03):** 1탄-5탄 published to both Instagram Reels + Blogger
 companion post. **6탄's Instagram Reel was published then manually deleted by the user the same
