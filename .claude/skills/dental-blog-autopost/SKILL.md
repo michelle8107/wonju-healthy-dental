@@ -573,6 +573,9 @@ cron `0 13 */2 * *` = 22:00 KST, 모델 sonnet-5, Notion 커넥터만 연결, �
 new_str로 바꾼다.** 부분 수정은 반드시 `update_content`(old_str/new_str)로. 루틴 프롬프트에 0번 절대 규칙
 (replace_content 금지, 훼손 감지 시 쓰기 중단)을 추가했다. 훼손 직전 전체 본문은 그 세션 로그 416줄 fetch 결과에 남아 있다.
 또 클라우드 루틴 환경은 blogspot.com·rss.blog.naver.com 접속이 egress 정책으로 막혀 있어 블로그 발행 검증을 못 한다.
+**복구·재발 방지(2026-09-22):** 로그의 9/19 백업 + 9/19~9/22 확인된 실적으로 페이지를 다시 썼다(이 복원 1회만 사용자 지시로 replace_content 사용).
+- `.claude/hooks/block-notion-replace.py` (PreToolUse): 리포트 페이지에 replace_content를 쓰면 이 PC 세션에서 차단한다.
+- `.claude/notion-report-snapshot.md`: 로컬에서 노션을 고친 뒤에는 fetch한 본문을 여기에 덮어써서 커밋할 것 — 다음 사고 때 복원 원본이 된다.
 ※ 인스타 발행 이력은 토큰이 로컬 `.env.local`에만 있어 클라우드에서 확인 불가 — 인스타/영상 작업이 있었던
 날은 이 세션에서 직접 노션에 적어야 한다.
 
