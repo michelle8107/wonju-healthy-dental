@@ -567,6 +567,12 @@ cron `0 13 */2 * *` = 22:00 KST, 모델 sonnet-5, Notion 커넥터만 연결, �
 루틴이 `replace_content`로 통째 덮어쓴 것으로 의심(미확인). **노션에 쓰기 전에 항상 먼저 fetch해서 내용이
 온전한지 확인하고, 망가져 있으면 덮어쓰지 말고 사용자에게 페이지 기록 복원을 요청할 것.** 복원 후에는 루틴
 프롬프트에 "insert_content만 사용, replace_content 금지"가 들어 있는지 점검해야 한다.
+**원인 확정(2026-09-22):** 루틴이 아니었다. 루틴의 9/19 실행은 13:02Z에 9/19 행만 update_content로 정상 추가했다.
+훼손은 15:01:52Z, 로컬 9탄 제작 세션(dfb130f4)이 "앞으로 진행 예정"의 불릿 하나("9편"→"10편")를 고치려고
+`replace_content` + `selection_with_ellipsis`를 호출한 것 — **replace_content는 selection을 무시하고 페이지 전체를
+new_str로 바꾼다.** 부분 수정은 반드시 `update_content`(old_str/new_str)로. 루틴 프롬프트에 0번 절대 규칙
+(replace_content 금지, 훼손 감지 시 쓰기 중단)을 추가했다. 훼손 직전 전체 본문은 그 세션 로그 416줄 fetch 결과에 남아 있다.
+또 클라우드 루틴 환경은 blogspot.com·rss.blog.naver.com 접속이 egress 정책으로 막혀 있어 블로그 발행 검증을 못 한다.
 ※ 인스타 발행 이력은 토큰이 로컬 `.env.local`에만 있어 클라우드에서 확인 불가 — 인스타/영상 작업이 있었던
 날은 이 세션에서 직접 노션에 적어야 한다.
 
