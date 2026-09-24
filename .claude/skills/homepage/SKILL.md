@@ -181,3 +181,14 @@ follow the same resize-then-splice-via-Python pattern, don't inflate the file wi
 - **Naver 스마트플레이스**: recommended as the actually-highest-impact registration for Korean
   local search ("원주 치과" style queries mostly happen on Naver, not Google) — not yet started as
   of this writing. Higher priority than polishing Google Ads copy if the user asks what to do next.
+
+## 네이버 서치어드바이저 (2026-09-24 완료)
+
+`naverd86b22f6eeca21313c0ec331bf9d8baa.html`(저장소 루트)이 소유확인 파일 — **삭제 금지**. 사이트맵·수집 요청까지 제출함.
+- claude-in-chrome 확장은 네이버 도메인(searchadvisor, smartplace 등)을 안전 제한으로 막는다. 대신 실제 크롬을
+  `--remote-debugging-port=9334 --user-data-dir=dental-blog-autopost/.naver-profile`로 띄우고 Playwright `connect_over_cdp`로
+  한 단계씩 조작했다(로그인은 사용자가 그 창에서, "로그인 상태 유지" 체크).
+- 소유확인·일부 제출에서 **캡차**가 뜬다 — 사용자가 직접 입력.
+- 네이버 입력창은 `fill()`로 넣으면 값이 모델에 반영되지 않아 확인 버튼이 비활성화된다 → `press_sequentially()`로 타이핑할 것.
+- 구글 서치콘솔: healthy2275 계정에 apex URL 접두어 속성 추가·sitemap 제출(2026-09-24). 구글 비즈니스 프로필은 이미 등록·인증돼 있었다.
+

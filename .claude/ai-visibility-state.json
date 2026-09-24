@@ -17,8 +17,9 @@
     {
       "id": "naver_searchadvisor",
       "title": "네이버 서치어드바이저 사이트 등록 + sitemap 제출",
-      "status": "pending",
-      "note": "인증 파일/메타태그 받으면 홈페이지에 추가 네이버 사이트는 크롬 확장 안전 제한으로 Claude가 열 수 없음(2026-09-24) — 사용자가 직접, 또는 인증 파일/메타태그를 받아오면 홈페이지 반영은 Claude가."
+      "status": "done",
+      "note": "https://healthydental.co.kr 등록·소유확인(HTML 파일 naverd86b22f6eeca21313c0ec331bf9d8baa.html — 삭제 금지) + sitemap.xml 제출 + / · /knowledge.html 수집 요청.",
+      "done_date": "2026-09-24"
     },
     {
       "id": "gsc_domain_property",
