@@ -10,7 +10,7 @@
 <meta property="og:title" content="치과지식 | 원주 건강한치과">
 <meta property="og:description" content="진료실에서 자주 받는 질문을 카드뉴스로 정리했습니다.">
 <meta property="og:url" content="https://healthydental.co.kr/knowledge.html">
-<meta property="og:image" content="https://healthydental.co.kr/knowledge/img/sinus-lift-bonegraft/cover.jpg">
+<meta property="og:image" content="https://healthydental.co.kr/knowledge/img/chuseok-parents-teeth/cover.jpg">
 <!-- 이 파일은 knowledge/build.py 가 생성합니다. 직접 수정하지 말고 carousels.json 을 고친 뒤 다시 빌드하세요. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -795,6 +795,42 @@
   .cta-band .btn-primary:hover { background: color-mix(in srgb, var(--on-primary) 85%, var(--primary-strong)); }
 
   /* Quick menu — deliberate fixed dark look, independent of site theme */
+  /* 배경 음악 on/off — 인트로가 끝난 뒤 왼쪽 아래에 작게 나타난다 */
+  .bgm-toggle {
+    position: fixed;
+    left: clamp(0.6rem, 2.5vw, 1.1rem);
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 64;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem 0.4rem 0.55rem;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(11, 18, 32, 0.72);
+    color: #fff;
+    font: inherit;
+    font-size: 0.68rem;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s ease, visibility 0.35s;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .bgm-toggle.bgm-visible { opacity: 0.72; visibility: visible; transform: none; }
+  .bgm-toggle.bgm-visible:hover,
+  .bgm-toggle.bgm-visible:focus-visible { opacity: 1; background: rgba(11, 18, 32, 0.9); }
+  .bgm-icon { display: inline-flex; }
+  .bgm-toggle .bgm-cross { opacity: 0; }
+  .bgm-toggle.bgm-off .bgm-wave { opacity: 0; }
+  .bgm-toggle.bgm-off .bgm-cross { opacity: 1; }
+  @media (max-width: 640px) {
+    .bgm-toggle { font-size: 0.62rem; padding: 0.35rem 0.6rem 0.35rem 0.5rem; }
+  }
+
   .quick-menu {
     position: fixed;
     right: clamp(0.6rem, 2.5vw, 1.25rem);
@@ -1043,8 +1079,17 @@
 
   <section class="kn-list">
     <div class="wrap">
-      <div class="kn-filters" role="group" aria-label="주제별 보기"><button class="kn-chip" type="button" data-cat="" aria-pressed="true">전체</button><button class="kn-chip" type="button" data-cat="임플란트" aria-pressed="false">임플란트</button><button class="kn-chip" type="button" data-cat="생활 관리" aria-pressed="false">생활 관리</button><button class="kn-chip" type="button" data-cat="소아 진료" aria-pressed="false">소아 진료</button><button class="kn-chip" type="button" data-cat="진료 준비" aria-pressed="false">진료 준비</button></div>
+      <div class="kn-filters" role="group" aria-label="주제별 보기"><button class="kn-chip" type="button" data-cat="" aria-pressed="true">전체</button><button class="kn-chip" type="button" data-cat="생활 관리" aria-pressed="false">생활 관리</button><button class="kn-chip" type="button" data-cat="임플란트" aria-pressed="false">임플란트</button><button class="kn-chip" type="button" data-cat="소아 진료" aria-pressed="false">소아 진료</button><button class="kn-chip" type="button" data-cat="진료 준비" aria-pressed="false">진료 준비</button></div>
       <ul class="kn-grid">
+      <li class="kn-card" data-cat="생활 관리">
+        <a class="kn-thumb" href="#chuseok-parents-teeth" aria-label="고향 가면, 부모님 치아 이것만 봐주세요 카드뉴스 보기 (8장)">
+          <img src="knowledge/img/chuseok-parents-teeth/cover.jpg" alt="고향 가면, 부모님 치아 이것만 봐주세요 카드뉴스 표지" width="640" height="800" loading="lazy">
+          <span class="kn-count"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M3 17V5a2 2 0 0 1 2-2h12"/></svg>8장</span>
+        </a>
+        <div class="kn-meta"><span class="kn-cat">생활 관리</span><span class="mono">2026.09.24</span></div>
+        <h2><a href="#chuseok-parents-teeth">고향 가면, 부모님 치아 이것만 봐주세요</a></h2>
+        <p>한쪽으로만 씹으시는지, 좋아하던 음식을 멀리하시는지, 틀니가 헐겁진 않은지. 명절 식사 자리에서 부모님 치아와 잇몸을 자연스럽게 살펴보는 방법을 정리했습니다.</p>
+      </li>
       <li class="kn-card" data-cat="임플란트">
         <a class="kn-thumb" href="#sinus-lift-bonegraft" aria-label="위 어금니 임플란트, 뼈가 부족하다는 말 들어보셨나요? 카드뉴스 보기 (10장)">
           <img src="knowledge/img/sinus-lift-bonegraft/cover.jpg" alt="위 어금니 임플란트, 뼈가 부족하다는 말 들어보셨나요? 카드뉴스 표지" width="640" height="800" loading="lazy">
@@ -1196,7 +1241,7 @@
 </script>
 <script>
   (function () {
-    var DATA = {"sinus-lift-bonegraft": {"title": "위 어금니 임플란트, 뼈가 부족하다는 말 들어보셨나요?", "instagram": "https://www.instagram.com/p/DdZdToJgYKm/", "slides": ["knowledge/img/sinus-lift-bonegraft/01.jpg", "knowledge/img/sinus-lift-bonegraft/02.jpg", "knowledge/img/sinus-lift-bonegraft/03.jpg", "knowledge/img/sinus-lift-bonegraft/04.jpg", "knowledge/img/sinus-lift-bonegraft/05.jpg", "knowledge/img/sinus-lift-bonegraft/06.jpg", "knowledge/img/sinus-lift-bonegraft/07.jpg", "knowledge/img/sinus-lift-bonegraft/08.jpg", "knowledge/img/sinus-lift-bonegraft/09.jpg", "knowledge/img/sinus-lift-bonegraft/10.jpg"]}, "chuseok-food-guide": {"title": "명절 음식별 치아 지키는 법", "instagram": "https://www.instagram.com/p/DdIr6TylEtB/", "slides": ["knowledge/img/chuseok-food-guide/01.jpg", "knowledge/img/chuseok-food-guide/02.jpg", "knowledge/img/chuseok-food-guide/03.jpg", "knowledge/img/chuseok-food-guide/04.jpg", "knowledge/img/chuseok-food-guide/05.jpg", "knowledge/img/chuseok-food-guide/06.jpg", "knowledge/img/chuseok-food-guide/07.jpg", "knowledge/img/chuseok-food-guide/08.jpg"]}, "implant-prosthesis-types": {"title": "내 임플란트, 어떻게 고정되어 있을까요?", "instagram": "https://www.instagram.com/p/DdAlKwWGHS1/", "slides": ["knowledge/img/implant-prosthesis-types/01.jpg", "knowledge/img/implant-prosthesis-types/02.jpg", "knowledge/img/implant-prosthesis-types/03.jpg", "knowledge/img/implant-prosthesis-types/04.jpg", "knowledge/img/implant-prosthesis-types/05.jpg", "knowledge/img/implant-prosthesis-types/06.jpg", "knowledge/img/implant-prosthesis-types/07.jpg", "knowledge/img/implant-prosthesis-types/08.jpg", "knowledge/img/implant-prosthesis-types/09.jpg"]}, "pediatric-care-checklist": {"title": "우리 아이 치아, 제대로 관리하고 계신가요?", "instagram": "https://www.instagram.com/p/Dc3G14XFPIW/", "slides": ["knowledge/img/pediatric-care-checklist/01.jpg", "knowledge/img/pediatric-care-checklist/02.jpg", "knowledge/img/pediatric-care-checklist/03.jpg", "knowledge/img/pediatric-care-checklist/04.jpg", "knowledge/img/pediatric-care-checklist/05.jpg", "knowledge/img/pediatric-care-checklist/06.jpg", "knowledge/img/pediatric-care-checklist/07.jpg", "knowledge/img/pediatric-care-checklist/08.jpg"]}, "med-disclosure-checklist": {"title": "치과 진료 전, 이 약 드시고 계신가요?", "instagram": "https://www.instagram.com/p/DcyYlq5lCgk/", "slides": ["knowledge/img/med-disclosure-checklist/01.jpg", "knowledge/img/med-disclosure-checklist/02.jpg", "knowledge/img/med-disclosure-checklist/03.jpg", "knowledge/img/med-disclosure-checklist/04.jpg", "knowledge/img/med-disclosure-checklist/05.jpg", "knowledge/img/med-disclosure-checklist/06.jpg", "knowledge/img/med-disclosure-checklist/07.jpg", "knowledge/img/med-disclosure-checklist/08.jpg"]}, "implant-checklist": {"title": "임플란트를 고민하고 계신가요?", "instagram": "https://www.instagram.com/p/DctNAa5m24a/", "slides": ["knowledge/img/implant-checklist/01.jpg", "knowledge/img/implant-checklist/02.jpg", "knowledge/img/implant-checklist/03.jpg", "knowledge/img/implant-checklist/04.jpg", "knowledge/img/implant-checklist/05.jpg", "knowledge/img/implant-checklist/06.jpg", "knowledge/img/implant-checklist/07.jpg", "knowledge/img/implant-checklist/08.jpg", "knowledge/img/implant-checklist/09.jpg"]}};
+    var DATA = {"chuseok-parents-teeth": {"title": "고향 가면, 부모님 치아 이것만 봐주세요", "instagram": "https://www.instagram.com/p/DdqBnLwH9_O/", "slides": ["knowledge/img/chuseok-parents-teeth/01.jpg", "knowledge/img/chuseok-parents-teeth/02.jpg", "knowledge/img/chuseok-parents-teeth/03.jpg", "knowledge/img/chuseok-parents-teeth/04.jpg", "knowledge/img/chuseok-parents-teeth/05.jpg", "knowledge/img/chuseok-parents-teeth/06.jpg", "knowledge/img/chuseok-parents-teeth/07.jpg", "knowledge/img/chuseok-parents-teeth/08.jpg"]}, "sinus-lift-bonegraft": {"title": "위 어금니 임플란트, 뼈가 부족하다는 말 들어보셨나요?", "instagram": "https://www.instagram.com/p/DdZdToJgYKm/", "slides": ["knowledge/img/sinus-lift-bonegraft/01.jpg", "knowledge/img/sinus-lift-bonegraft/02.jpg", "knowledge/img/sinus-lift-bonegraft/03.jpg", "knowledge/img/sinus-lift-bonegraft/04.jpg", "knowledge/img/sinus-lift-bonegraft/05.jpg", "knowledge/img/sinus-lift-bonegraft/06.jpg", "knowledge/img/sinus-lift-bonegraft/07.jpg", "knowledge/img/sinus-lift-bonegraft/08.jpg", "knowledge/img/sinus-lift-bonegraft/09.jpg", "knowledge/img/sinus-lift-bonegraft/10.jpg"]}, "chuseok-food-guide": {"title": "명절 음식별 치아 지키는 법", "instagram": "https://www.instagram.com/p/DdIr6TylEtB/", "slides": ["knowledge/img/chuseok-food-guide/01.jpg", "knowledge/img/chuseok-food-guide/02.jpg", "knowledge/img/chuseok-food-guide/03.jpg", "knowledge/img/chuseok-food-guide/04.jpg", "knowledge/img/chuseok-food-guide/05.jpg", "knowledge/img/chuseok-food-guide/06.jpg", "knowledge/img/chuseok-food-guide/07.jpg", "knowledge/img/chuseok-food-guide/08.jpg"]}, "implant-prosthesis-types": {"title": "내 임플란트, 어떻게 고정되어 있을까요?", "instagram": "https://www.instagram.com/p/DdAlKwWGHS1/", "slides": ["knowledge/img/implant-prosthesis-types/01.jpg", "knowledge/img/implant-prosthesis-types/02.jpg", "knowledge/img/implant-prosthesis-types/03.jpg", "knowledge/img/implant-prosthesis-types/04.jpg", "knowledge/img/implant-prosthesis-types/05.jpg", "knowledge/img/implant-prosthesis-types/06.jpg", "knowledge/img/implant-prosthesis-types/07.jpg", "knowledge/img/implant-prosthesis-types/08.jpg", "knowledge/img/implant-prosthesis-types/09.jpg"]}, "pediatric-care-checklist": {"title": "우리 아이 치아, 제대로 관리하고 계신가요?", "instagram": "https://www.instagram.com/p/Dc3G14XFPIW/", "slides": ["knowledge/img/pediatric-care-checklist/01.jpg", "knowledge/img/pediatric-care-checklist/02.jpg", "knowledge/img/pediatric-care-checklist/03.jpg", "knowledge/img/pediatric-care-checklist/04.jpg", "knowledge/img/pediatric-care-checklist/05.jpg", "knowledge/img/pediatric-care-checklist/06.jpg", "knowledge/img/pediatric-care-checklist/07.jpg", "knowledge/img/pediatric-care-checklist/08.jpg"]}, "med-disclosure-checklist": {"title": "치과 진료 전, 이 약 드시고 계신가요?", "instagram": "https://www.instagram.com/p/DcyYlq5lCgk/", "slides": ["knowledge/img/med-disclosure-checklist/01.jpg", "knowledge/img/med-disclosure-checklist/02.jpg", "knowledge/img/med-disclosure-checklist/03.jpg", "knowledge/img/med-disclosure-checklist/04.jpg", "knowledge/img/med-disclosure-checklist/05.jpg", "knowledge/img/med-disclosure-checklist/06.jpg", "knowledge/img/med-disclosure-checklist/07.jpg", "knowledge/img/med-disclosure-checklist/08.jpg"]}, "implant-checklist": {"title": "임플란트를 고민하고 계신가요?", "instagram": "https://www.instagram.com/p/DctNAa5m24a/", "slides": ["knowledge/img/implant-checklist/01.jpg", "knowledge/img/implant-checklist/02.jpg", "knowledge/img/implant-checklist/03.jpg", "knowledge/img/implant-checklist/04.jpg", "knowledge/img/implant-checklist/05.jpg", "knowledge/img/implant-checklist/06.jpg", "knowledge/img/implant-checklist/07.jpg", "knowledge/img/implant-checklist/08.jpg", "knowledge/img/implant-checklist/09.jpg"]}};
     var kv = document.getElementById('kv');
     var track = document.getElementById('kv-track');
     var dots = document.getElementById('kv-dots');
