@@ -4,32 +4,34 @@
     {
       "id": "google_business_profile",
       "title": "구글 비즈니스 프로필(구글 지도) 등록·인증",
-      "status": "in_progress",
-      "note": "2026-09-14 반자동 등록 시도 — 로그인 전 크롬이 메모리 부족으로 종료돼 입력·제출 없음. 재시도 대기(방법은 homepage 스킬 \"구글 지도 등록\" 절). 인증은 원장님 본인"
+      "status": "done",
+      "note": "이미 등록·인증돼 있었음(healthy2275@gmail.com 비즈니스 프로필 매니저, '건강한치과의원' 인증됨). 정보 점검 완료, 추석 9/24~27 휴무 특별영업시간 제출. 10/3·10/9는 일정 미확인이라 비워둠.",
+      "done_date": "2026-09-24"
     },
     {
       "id": "naver_smartplace",
       "title": "네이버 스마트플레이스 정보 완비(진료시간·사진·홈페이지 링크)",
       "status": "pending",
-      "note": ""
+      "note": "네이버 사이트는 크롬 확장 안전 제한으로 Claude가 열 수 없음(2026-09-24) — 사용자가 직접, 또는 인증 파일/메타태그를 받아오면 홈페이지 반영은 Claude가."
     },
     {
       "id": "naver_searchadvisor",
       "title": "네이버 서치어드바이저 사이트 등록 + sitemap 제출",
       "status": "pending",
-      "note": "인증 파일/메타태그 받으면 홈페이지에 추가"
+      "note": "인증 파일/메타태그 받으면 홈페이지에 추가 네이버 사이트는 크롬 확장 안전 제한으로 Claude가 열 수 없음(2026-09-24) — 사용자가 직접, 또는 인증 파일/메타태그를 받아오면 홈페이지 반영은 Claude가."
     },
     {
       "id": "gsc_domain_property",
       "title": "구글 서치콘솔 도메인 속성(healthydental.co.kr) + sitemap 제출",
-      "status": "pending",
-      "note": "현재 www URL 접두어 속성만 있음 — www는 apex로 301"
+      "status": "done",
+      "note": "healthy2275 계정에 https://healthydental.co.kr/ URL 접두어 속성 추가(기존 HTML 파일로 자동 인증) + sitemap.xml 제출. DNS 도메인 속성은 가비아 로그인 필요해 생략 — apex 속성으로 충분.",
+      "done_date": "2026-09-24"
     },
     {
       "id": "modoodoc_claim",
       "title": "모두닥 병원 관리자 인증(정보공개 동의)",
       "status": "pending",
-      "note": "https://www.modoodoc.com/hospital/49821/"
+      "note": "https://www.modoodoc.com/hospital/49821/ — 관리자 인증 경로가 병원 관계자 가입+광고 신청과 묶여 있음(2026-09-24 확인). 계정 생성은 사용자가 직접."
     },
     {
       "id": "goodoc_claim",
