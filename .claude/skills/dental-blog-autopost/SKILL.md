@@ -120,7 +120,7 @@ revoked`가 나온다. 크론이 도는지 확인하려면 공개 피드가 제�
    이 단계를 빼먹는 게 가장 흔한 실수다.
 5. `vercel crons ls`로 `/api/cron/generate-post` `0 0 * * 1,4`가 그대로인지 확인.
 
-**근본 해결 (아직 미완료 — 사용자가 직접 해야 함).** Google Cloud Console → API 및 서비스 →
+**근본 해결 — 2026-09-24 완료(프로덕션 전환 + 전환 후 토큰 재발급). 이제 토큰은 만료되지 않는다.** 아래는 경위. Google Cloud Console → API 및 서비스 →
 OAuth 동의 화면에서 **"앱 게시" / 프로덕션으로 전환**. blogger 스코프는 민감 스코프가 아니라
 Google 심사 없이 즉시 전환되고, 전환 후에는 refresh token이 만료되지 않는다. 2026-09-08에 안내했고
 사용자가 아직 전환하지 않았다면 **약 9/15경 또 만료된다** — 다음 세션에서 먼저 확인할 것.
@@ -646,5 +646,9 @@ instead of re-asking the user to redo finished steps:
       `--timeout 900`으로 여유를 줄 것. 노션 리포트 업데이트는 페이지 훼손 문제로 보류 중.
 - [x] 2026-09-24: Blogger 토큰 400으로 다시 만료 → 재발급(healthy2275@gmail.com, 사용자의 "건강한치과" 크롬 프로필에서 승인;
       계정 선택 화면에 없으면 switch_browser로 그 프로필 창을 고를 것) → `.env.local`·Vercel 교체 → 재배포 → 크론 확인.
-      동의화면의 "계속" 버튼이 클릭에 반응하지 않아 JS `button.click()`으로 눌렀다. 동의화면이 아직 테스트 모드라 **~10/1에 또 만료**.
+      동의화면의 "계속" 버튼이 클릭에 반응하지 않아 JS `button.click()`으로 눌렀다. 같은 날 프로덕션 전환 완료(아래 항목).
 - [x] 2026-09-24: 추석 부모님 치아 캐러셀 발행 https://www.instagram.com/p/DdqBnLwH9_O/ (ochre). 시술 후 관리(ochre)는 번갈아 올리기 원칙으로 다음 건치 영상 뒤로 보류.
+- [x] 2026-09-24: OAuth 동의화면 **프로덕션 전환 완료**(프로젝트 `dentalblog`, healthy2275@gmail.com). 선행 조건 두 개:
+      ① Google Cloud 2단계 인증 의무화(9/12~) — 사용자가 켬, ② 브랜딩에 홈페이지·개인정보처리방침 링크 필요 —
+      `privacy.html`(앱 전용 방침)을 홈페이지에 추가하고 승인된 도메인에 healthydental.co.kr 추가. **테스트 모드 때 받은 토큰은
+      전환 후에도 7일 만료가 남으므로 전환 직후 토큰을 한 번 더 재발급**해 `.env.local`·Vercel 교체·재배포까지 마쳤다.
