@@ -644,3 +644,7 @@ instead of re-asking the user to redo finished steps:
 - [ ] 2026-09-22: 네이버 초안 시도 → 로그인 대기 300초 초과로 실패(9/5에 이어 두 번째). `.naver-profile`
       세션이 유지되지 않고 매번 로그인 화면이 뜬다. 다음엔 사용자가 준비됐는지 먼저 확인하고 띄우거나
       `--timeout 900`으로 여유를 줄 것. 노션 리포트 업데이트는 페이지 훼손 문제로 보류 중.
+- [x] 2026-09-24: Blogger 토큰 400으로 다시 만료 → 재발급(healthy2275@gmail.com, 사용자의 "건강한치과" 크롬 프로필에서 승인;
+      계정 선택 화면에 없으면 switch_browser로 그 프로필 창을 고를 것) → `.env.local`·Vercel 교체 → 재배포 → 크론 확인.
+      동의화면의 "계속" 버튼이 클릭에 반응하지 않아 JS `button.click()`으로 눌렀다. 동의화면이 아직 테스트 모드라 **~10/1에 또 만료**.
+- [x] 2026-09-24: 추석 부모님 치아 캐러셀 발행 https://www.instagram.com/p/DdqBnLwH9_O/ (ochre). 시술 후 관리(ochre)는 번갈아 올리기 원칙으로 다음 건치 영상 뒤로 보류.
