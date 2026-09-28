@@ -934,6 +934,28 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
+  /* Temporary notice (holiday / closure) — hidden automatically after data-until */
+  .notice-bar {
+    background: var(--primary-soft);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 0.9rem;
+  }
+  .notice-bar .wrap { padding-block: 0.7rem; display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; }
+  .notice-bar strong { color: var(--primary-strong); font-weight: 700; }
+  .notice-bar a { color: var(--primary); font-weight: 600; text-underline-offset: 3px; }
+  .notice-box {
+    border: 1px solid rgba(111,214,206,0.45);
+    background: rgba(111,214,206,0.08);
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.6rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .notice-box .notice-title { color: #6FD6CE; font-weight: 700; margin-bottom: 0.4rem; }
+  .notice-box ul { margin: 0; padding-left: 1.1rem; }
+  .notice-box b { color: #ffffff; }
 </style>
 <style>
   nav.links a[aria-current="page"], .mobile-panel a[aria-current="page"] { color: var(--primary); font-weight: 600; }

@@ -110,6 +110,16 @@
       "closes": "14:00"
     }
   ],
+  "specialOpeningHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "validFrom": "2026-10-14",
+      "validThrough": "2026-10-18",
+      "opens": "00:00",
+      "closes": "00:00",
+      "description": "세미나 참석으로 휴진"
+    }
+  ],
   "sameAs": [
     "https://www.instagram.com/healthydental2275/",
     "https://healthydentalwonju.blogspot.com/",
@@ -1040,6 +1050,28 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
+  /* Temporary notice (holiday / closure) — hidden automatically after data-until */
+  .notice-bar {
+    background: var(--primary-soft);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 0.9rem;
+  }
+  .notice-bar .wrap { padding-block: 0.7rem; display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; }
+  .notice-bar strong { color: var(--primary-strong); font-weight: 700; }
+  .notice-bar a { color: var(--primary); font-weight: 600; text-underline-offset: 3px; }
+  .notice-box {
+    border: 1px solid rgba(111,214,206,0.45);
+    background: rgba(111,214,206,0.08);
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.6rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .notice-box .notice-title { color: #6FD6CE; font-weight: 700; margin-bottom: 0.4rem; }
+  .notice-box ul { margin: 0; padding-left: 1.1rem; }
+  .notice-box b { color: #ffffff; }
 </style>
 </head>
 <body>
@@ -1206,6 +1238,14 @@
 </script>
 
 <main id="top">
+
+  <div class="notice-bar" data-until="2026-10-18">
+    <div class="wrap">
+      <strong>10월 진료 안내</strong>
+      <span>10/3(토)·10/5(월)·10/9(금) 공휴일 정상진료 · <b>10/14(수)~10/18(일) 세미나 참석으로 휴진</b></span>
+      <a href="#hours">자세히</a>
+    </div>
+  </div>
 
   <section class="hero">
     <div class="wrap hero-grid">
@@ -1440,6 +1480,13 @@
       <div>
         <span class="eyebrow eyebrow--dark">진료 시간</span>
         <h2 class="location-block-h2">요일별 진료 안내</h2>
+        <div class="notice-box" data-until="2026-10-18">
+          <div class="notice-title">10월 진료 안내</div>
+          <ul>
+            <li>10/3(토) 개천절 · 10/5(월) 대체공휴일 · 10/9(금) 한글날 — <b>정상진료</b> (해당 요일 진료시간과 같습니다)</li>
+            <li>10/14(수) ~ 10/18(일) — <b>세미나 참석으로 휴진</b>, 10/19(월)부터 정상진료합니다</li>
+          </ul>
+        </div>
         <table class="hours" id="hours-table">
           <tr data-day="1"><td class="day">월</td><td class="time">10:00 – 19:00</td><td class="note">점심 13–14시</td></tr>
           <tr data-day="2"><td class="day">화</td><td class="time">10:00 – 21:00</td><td class="note">야간 · 점심 13–14시</td></tr>
@@ -1570,18 +1617,30 @@
       6: { open: 10, close: 14, lunch: null }
     };
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+    // 임시 휴진일 (YYYY-MM-DD → 사유)
+    const closures = {
+      '2026-10-14': '세미나 참석', '2026-10-15': '세미나 참석', '2026-10-16': '세미나 참석',
+      '2026-10-17': '세미나 참석', '2026-10-18': '세미나 참석'
+    };
+    const pad = n => String(n).padStart(2, '0');
+    const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+    document.querySelectorAll('[data-until]').forEach(el => {
+      if (ymd(new Date()) > el.dataset.until) el.remove();
+    });
 
     function paint() {
       const now = new Date();
       const day = now.getDay();
       const hour = now.getHours() + now.getMinutes() / 60;
-      const today = schedule[day];
+      const closure = closures[ymd(now)];
+      const today = closure ? null : schedule[day];
 
       const dot = document.getElementById('status-dot');
       const text = document.getElementById('status-text');
 
       let cls = 'closed';
-      let msg = `오늘(${dayNames[day]}) 정기휴무`;
+      let msg = closure ? `오늘 휴진 (${closure})` : `오늘(${dayNames[day]}) 정기휴무`;
 
       if (today) {
         if (today.lunch && hour >= today.lunch[0] && hour < today.lunch[1]) {
