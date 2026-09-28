@@ -114,6 +114,19 @@ Scene1 소파에서 밝게 통화 → Scene2 웃음이 굳고 귀 쫑긋(저주�
 타이틀·자막 전체를 cmap과 대조해서 막으니, 새 에피소드는 그 함수를 그대로 가져갈 것.
 빌드: `assets/geonchi_shorts/ep9_build/build.py`.)
 
+`output/건치의 하루10편-공휴일진료.mp4` (10탄 - 퇴근하면 닫혀 있고 점심엔 붐비고 → 10월 공휴일 정상진료 발견,
+사용자 기획, 2026-09-28 제작, 39.8s. Title "공휴일 진료" 첫 1초(타이틀이 길면 `title_png`이 자동 축소). s1 야근 중 볼 잡음 →
+s2 밤길 달려가 닫힌 유리문 → s3 점심시간 꽉 찬 대기실 → s4 소파 폰 시무룩(정지컷) → 눈 반짝 "엇!"(ding SFX) → 점프.
+점프 정지컷 위에 PIL로 그린 **"10월 진료 안내" 카드**(`ep10_build/card.py`, 화면 텍스트는 AI 생성 대신 오버레이로)를
+띄우고 내레이션. 로고 위 10/14~18 세미나 휴진 안내. 4컷 모두 첫 테이크(~130 크레딧). 일정은 사용자 확인값:
+10/3(토)·10/5(월, 대체공휴일)·10/9(금) 정상진료, 10/14(수)~10/18(일) 휴진.
+빌드 `ep10_build/build.py` — **정지컷을 `-loop 1`+zoompan 대신 이미지 1장 + `zoompan d=n` + `-t`로 바꿨고, 모든
+ffmpeg 호출에 timeout + taskkill /T** (전역 CLAUDE.md 규칙). 새 에피소드는 ep9가 아니라 이 스크립트를 복사할 것.
+사용자 피드백으로 로고 위에 "학회 세미나로 쉬어요" + "공부를 쉬지 않는 건강한치과예요!" 추가(44.4s).
+**게시 완료 (2026-09-29):** 릴스 https://www.instagram.com/reel/Dd1hUxNkqgU/ (Media ID 18038151938837178),
+블로그 https://healthydentalwonju.blogspot.com/2026/09/10-10.html (`dental-blog-autopost/scripts/geonchi10-post.html`, 캡처 `blog/ep10_01~05.jpg`).
+다음 게시는 캐러셀 차례(대기: ochre 임플란트 시술 후 관리).)
+
 **Publish status update (2026-09-10):** 사용자 확인 — "시린이까지 올렸어". 6탄도 게시 완료,
 1탄-6탄 전부 나감. 7탄(추석간식)도 같은 날 제작 → v2 수정 → **게시 완료** (사용자 지시로 캐러셀보다
 먼저): 릴스 https://www.instagram.com/reel/DdGgkjwCaBQ/ (Media ID 18487336861100410), 블로그
