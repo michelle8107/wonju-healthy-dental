@@ -15,6 +15,10 @@ write the post text with photo-placement markers like `[사진: ...]`, don't att
 - **Naming: never say "소아치과" (implies a specialist pediatric-dentistry designation this
   clinic doesn't hold) — use "소아 진료" instead**, everywhere (post titles, labels, body text).
   Corrected 2026-08-29 after it slipped into a published post's title/label/banner.
+- **태그·표현 규칙 (2026-09-29 사용자 지시):** `#원주치과추천` 태그는 쓰지 않는다(추천 표방).
+  `#원주소아진료` 대신 `#어린이치과검진`. 통증을 단정하는 대사("스케일링, 사실 하나도 안 아파요~")는
+  금지하고 "생각보다 훨씬 덜 불편해요~(개인차 있음)"처럼 완화 + 개인차 표기. 블로그·캡션·카드뉴스·
+  건치 대사 모두 적용. 자동 발행은 `lib/anthropic.ts` GUARDRAILS·labels 설명에 반영돼 있다.
 - **Naming: the on-screen mascot is always called 건치 in copy/captions/blog text, never
   토순이** (corrected 2026-08-28 — 토순이 was this assistant's placeholder name, never the
   user's; even though the character model is visually a rabbit, the series title "건치의 하루"
@@ -152,7 +156,7 @@ posts — it has no idea a video episode exists. When "올려야지"-ing an epis
    the episode's theme (not just a video description — actual informative content, so it reads
    as a real article and ranks for the topic) → a closing paragraph naming 원주/원주치과 and
    whatever service the episode's theme naturally bridges to (진료 종류에 맞는 로컬 SEO 키워드,
-   e.g. 원주임플란트 for anything implant-adjacent, 원주치과추천/정기검진/스케일링 generally).
+   e.g. 원주임플란트 for anything implant-adjacent, 원주치과/정기검진/스케일링 generally).
    Reference example: `scripts/geonchi1-post.html`.
    **Blob 파일명 충돌 주의:** `upload-blog-images.mjs`는 `blog/<파일명>`에 랜덤 접미사 없이 올린다.
    6탄 글이 `blog/01.jpg`~`04.jpg`를 쓰고 있으므로 같은 이름으로 올리면 이전 글 이미지를 덮거나
@@ -216,9 +220,9 @@ published.
 **Label pool (confirmed 2026-08-28)** — pick 3-6 per post from here rather than improvising a new
 mix each time, and don't dump all 30 on one post (looks spammy, dilutes SEO signal):
 - 브랜드: `원주건강한치과` `건치의하루` `표경열원장`
-- 지역: `원주치과` `원주치과추천` `반곡동치과` `원주임플란트` `강원원주치과`
-  `국민건강보험공단치과` `원주스케일링` `원주교정치과` `원주소아진료` `원주사랑니`
-- 진료/시술: `임플란트` `스케일링` `신경치료` `심미보철` `라미네이트` `치아미백` `잇몸치료`
+- 지역: `원주치과` `반곡동치과` `원주임플란트` `강원원주치과`
+  `국민건강보험공단치과` `원주스케일링` `원주교정치과` `원주사랑니`
+- 진료/시술: `어린이치과검진` `임플란트` `스케일링` `신경치료` `심미보철` `라미네이트` `치아미백` `잇몸치료`
   `치주치료` `사랑니발치` `충치치료`
 - 정보/증상: `치아건강` `구강건강` `치과검진` `정기검진` `잇몸출혈` `시린이` `충치예방`
 
