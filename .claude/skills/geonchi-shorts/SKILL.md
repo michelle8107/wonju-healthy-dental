@@ -142,9 +142,9 @@ https://healthydentalwonju.blogspot.com/2026/09/7-3.html (`dental-blog-autopost/
 `assets/geonchi_shorts/ep2_fix/fix.py`로 수정본 `output/geonchi2_scaling_v2_개인차.mp4`(17.2s) 생성 —
 8.6s 이후 옛 자막 상자 영역(y=978, h=130)만 흐림 처리 + **같은 자리·같은 크기** 새 자막 상자("어라? 생각보다 괜찮네?",
 "스케일링, 생각보다 훨씬 덜 불편해요!\n(개인차 있음)"), 새 TTS("…개인차는 있어요"), 대사가 길어 11.9s에 1.8s 정지컷.
-(흐림 영역을 새 상자보다 크게 잡으면 흰 로고 배경에서 회색 테두리가 두 겹으로 보였다.) 원본 릴스는 아직 인스타에 그대로 있고,
-수정본은 **미게시** — 새 릴스로 올리고 기존 릴스는 사용자가 앱에서 삭제/보관하는 방식, 또는 2탄 블로그 글 신규 작성 중
-사용자 결정 대기.
+(흐림 영역을 새 상자보다 크게 잡으면 흰 로고 배경에서 회색 테두리가 두 겹으로 보였다.)
+**2026-10-02 사용자 결정: "2탄 관련된 건 잊어줘. 그냥 넘어가자"** — 수정본은 게시하지 않고 원본 릴스는 그대로 둔다.
+2탄 재게시·블로그 글 작성을 다시 제안하지 말 것(사용자가 먼저 꺼낼 때만).
 
 **Publish status (as of 2026-09-03):** 1탄-5탄 published to both Instagram Reels + Blogger
 companion post. **6탄's Instagram Reel was published then manually deleted by the user the same
