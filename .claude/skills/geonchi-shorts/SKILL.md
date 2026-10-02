@@ -134,6 +134,18 @@ https://healthydentalwonju.blogspot.com/2026/09/7-3.html (`dental-blog-autopost/
 **8탄(연휴치통) 게시 완료 (2026-09-14):** 릴스 https://www.instagram.com/reel/DdQAR67kVgz/ (Media ID 17945083011313522), 블로그 https://healthydentalwonju.blogspot.com/2026/09/8.html (`dental-blog-autopost/scripts/geonchi8-post.html`, 캡처 `blog/ep8_01~05.jpg`).
 **9탄(가족치통) 게시 완료 (2026-09-19):** 릴스 https://www.instagram.com/reel/DdeR11Sio0A/ (Media ID 18383766148235579), 블로그 https://healthydentalwonju.blogspot.com/2026/09/9.html (`dental-blog-autopost/scripts/geonchi9-post.html`, 캡처 `blog/ep9_01~05.jpg`). 다음 에피소드는 10탄(미제작).
 
+**정정 (2026-09-29 확인):** 블로그 연계 글은 1·4·5·7·8·9·10탄만 있다 — **2탄·3탄은 Blogger에도 네이버에도
+연계 글이 없다**(아래 "1탄-5탄 ... Blogger" 문장은 틀렸다). 공개 피드에서 `<video src=...mp4>`로 확인함.
+
+**2탄 문구 수정 (2026-09-29, 사용자 지시 — `dental-blog-autopost` 스킬의 "태그·표현 규칙" 참고):** 원본 2탄에
+"어라? 하나도 안 아프네?" / "스케일링, 사실 하나도 안 아파요!"가 대사·자막으로 들어 있었다(효과 단정).
+`assets/geonchi_shorts/ep2_fix/fix.py`로 수정본 `output/geonchi2_scaling_v2_개인차.mp4`(17.2s) 생성 —
+8.6s 이후 옛 자막 상자 영역(y=978, h=130)만 흐림 처리 + **같은 자리·같은 크기** 새 자막 상자("어라? 생각보다 괜찮네?",
+"스케일링, 생각보다 훨씬 덜 불편해요!\n(개인차 있음)"), 새 TTS("…개인차는 있어요"), 대사가 길어 11.9s에 1.8s 정지컷.
+(흐림 영역을 새 상자보다 크게 잡으면 흰 로고 배경에서 회색 테두리가 두 겹으로 보였다.) 원본 릴스는 아직 인스타에 그대로 있고,
+수정본은 **미게시** — 새 릴스로 올리고 기존 릴스는 사용자가 앱에서 삭제/보관하는 방식, 또는 2탄 블로그 글 신규 작성 중
+사용자 결정 대기.
+
 **Publish status (as of 2026-09-03):** 1탄-5탄 published to both Instagram Reels + Blogger
 companion post. **6탄's Instagram Reel was published then manually deleted by the user the same
 day** — a "하지마" arrived right as the Instagram publish call completed (too late to stop it;
