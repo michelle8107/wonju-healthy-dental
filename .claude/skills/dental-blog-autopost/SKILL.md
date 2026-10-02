@@ -414,7 +414,7 @@ navy는 2026-09-08 임플란트 보철 연결 방식(SCRP) 세트에도 다시 �
 | 5 | 2026-09-11 | 추석: 명절 음식별 치아 지키는 법 (8장) — https://www.instagram.com/p/DdIr6TylEtB/ | navy (사용자 지정) |
 | 6 | 2026-09-18 | 임플란트 뼈이식 / 상악동 거상술 (10장, 3D 그림) — https://www.instagram.com/p/DdZdToJgYKm/ | gold |
 
-**2026-09-29 제작·미발행: green "10월 공휴일에도 정상진료"(6장)** — `assets/instagram_carousels/october_holiday_hours/`,
+**2026-10-02 발행: green "10월 공휴일에도 정상진료"(6장) — https://www.instagram.com/p/Dd_UYGhH2ca/** (치과지식 페이지에는 미추가 — 일정 안내라 사용자 결정 대기) — `assets/instagram_carousels/october_holiday_hours/`,
 `scripts/gen-october-holiday-carousel.py`. 사용자 지시로 공휴일 3일(10/3 개천절·10/5 대체공휴일·10/9 한글날) 정상진료만 담고
 **휴진(10/14~18 학회 세미나) 안내는 뺐다.** "정상진료 크게" 피드백으로 표지·3장에 `draw_hero()`(액센트색 190/120px) +
 날짜 카드 큰 배지. 캡션 초안은 대화에서 제시(태그에 #원주치과추천 없음). 치과지식 페이지 포함 여부는 사용자 답 대기
