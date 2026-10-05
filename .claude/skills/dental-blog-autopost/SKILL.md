@@ -662,3 +662,19 @@ instead of re-asking the user to redo finished steps:
       ① Google Cloud 2단계 인증 의무화(9/12~) — 사용자가 켬, ② 브랜딩에 홈페이지·개인정보처리방침 링크 필요 —
       `privacy.html`(앱 전용 방침)을 홈페이지에 추가하고 승인된 도메인에 healthydental.co.kr 추가. **테스트 모드 때 받은 토큰은
       전환 후에도 7일 만료가 남으므로 전환 직후 토큰을 한 번 더 재발급**해 `.env.local`·Vercel 교체·재배포까지 마쳤다.
+- [x] 2026-10-05: 수동 글 "원주 스케일링, 얼마나 자주 받아야 할까요? 치석 제거 과정과 받고 나서 시린 이유" 발행
+      (`scripts/scaling-guide-post.html`, https://healthydentalwonju.blogspot.com/2026/10/blog-post_05.html, postId 5229959876109559000).
+      1인칭 원장 목소리. 건강보험은 "만 19세 이상 연 1회로 알려져 있음"까지만 쓰고 금액은 뺐다(제도 변경 가능 — 사용자 확인 요청함).
+      Redis 토픽 "스케일링 주기·치석 제거 과정·시림" 추가. 같은 날 설명 그림 4장을 추가해 `update-geonchi-post.mjs`로 수정.
+
+### 블로그 글에 설명 그림 넣기 (2026-10-05 사용자 요청 "사진이나 그림도 보조로 군데군데")
+- 스톡 사진·AI 이미지 대신 **PIL로 직접 그린 도식**을 쓴다(저작권·의료광고 위험 0, 크레딧 0). 레퍼런스:
+  `scripts/gen-scaling-blog-images.py` (1200×675, 밝은 배경 `#F7F9F8` + 청록 `#0F3D3A`, Noto Sans KR 가변폰트).
+  치아·잇몸 단면은 `scene()`이 잇몸→치근→치관 순으로 겹쳐 그린다(잇몸을 치아와 떨어뜨려 그리면 어색함).
+- **모든 그림 하단에 "직접 그린 설명용 도식이며 실제 구조와 차이가 있을 수 있습니다"를 박는다.** 전후 비교처럼 보이는
+  그림은 "구조 설명"임을 캡션에 밝히고 "개인차 있음"을 붙인다(전후 사진 금지 규정 회피).
+- 흐름: 이미지 생성 → `Read`로 눈으로 확인(겹침·잘림) → `node --env-file=.env.local scripts/upload-blog-images.mjs <dir>`
+  (파일명은 글별 접두사 `scaling_01.jpg`) → HTML에 `<figure><img alt="…"><figcaption>` 삽입 → 기존 글 수정은
+  `update-geonchi-post.mjs <postId> <html> "<제목>" "<라벨>"`. postId는 Blogger `posts/bypath?path=/YYYY/MM/<slug>.html`로 조회.
+- **한글이 든 파이썬을 `python - <<EOF` heredoc으로 넘기지 말 것** — Windows에서 인코딩이 깨져 스크립트가 망가진다(실제로 겪음).
+  파일을 Write/Edit으로 만들고 `PYTHONIOENCODING=utf-8 python <file>`로 실행한다.
