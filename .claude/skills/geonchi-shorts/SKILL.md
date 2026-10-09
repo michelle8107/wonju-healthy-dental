@@ -292,3 +292,15 @@ duration, then mux onto the picture-locked video (`-map 0:v -map 1:a -c:v copy -
    Instagram-hashtag rules — read it before publishing, don't improvise the caption style here).
    Threads was scoped in and then explicitly canceled by the user the same day (Meta app was
    created but OAuth/publishing was never finished) — don't resume it unless asked again.
+
+`output` 없이 `assets/geonchi_shorts/ep11_build/ep11_v2.mp4` (11탄 - 내일은 한글날, 치과도 쉬겠죠? → 한글날 정상진료,
+custom(사용자 선택 "한글날 정상진료 짧은 편"), 2026-10-08 제작, 17.2s). **새 영상 생성 0크레딧** — 10탄 `s4.mp4`(소파 시무룩 →
+눈 반짝 → 점프)만 재사용하고 TTS 4줄만 새로 생성(`ep11_build/build.py`, 10탄 build.py 복사본). Title "한글날 진료" 첫 1초,
+"10/9 (금) 한글날 정상진료" PIL 카드(진료시간은 카드에 안 넣음). **짧은 공지형 에피소드는 기존 씬 재사용이 가장 싸다.**
+**사용자 지시: 휴진(10/14~18 세미나) 얘기는 넣지 말 것** — v1(`ep11_v1_휴진포함.mp4`)에는 로고 구간에 휴진 안내를 넣었다가
+이미 게시된 뒤 사용자가 "휴진 얘기는 하지말고"라고 해서 v1 릴스를 사용자가 앱에서 삭제하고 v2로 재게시했다.
+**게시 완료 (2026-10-08):** 릴스 https://www.instagram.com/reel/DeOfpQjjcIu/ (Media ID 18409754710093258),
+블로그 https://healthydentalwonju.blogspot.com/2026/10/11.html (`dental-blog-autopost/scripts/geonchi11-post.html`, 캡처 `blog/ep11_01~04.jpg`).
+블로그에 진료시간(10/9 10:00–19:00, 점심 13–14시 / 화·목 21시까지 / 토 10–14시)은 10탄 글에 이미 공개된 값을 재사용.
+**교훈: 인스타 게시는 취소 불가이므로 "띄워줘/올려줘"를 받아도, 사용자가 아직 영상을 보지 않았다면(파일 경로를 알려주고
+재생기로 열어준 뒤) 한 번 더 확인하고 올린다.** 이번엔 만든 영상을 보여주기 전에 올려버렸다.

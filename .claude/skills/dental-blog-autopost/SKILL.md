@@ -678,3 +678,10 @@ instead of re-asking the user to redo finished steps:
   `update-geonchi-post.mjs <postId> <html> "<제목>" "<라벨>"`. postId는 Blogger `posts/bypath?path=/YYYY/MM/<slug>.html`로 조회.
 - **한글이 든 파이썬을 `python - <<EOF` heredoc으로 넘기지 말 것** — Windows에서 인코딩이 깨져 스크립트가 망가진다(실제로 겪음).
   파일을 Write/Edit으로 만들고 `PYTHONIOENCODING=utf-8 python <file>`로 실행한다.
+- [x] 2026-10-08: 건치 11탄(한글날 정상진료) 릴스+블로그 게시. **인스타 게시 전엔 반드시 영상을 먼저 보여주고(PowerShell
+      `Start-Process <mp4>`로 기본 재생기에서 열기) 승인받을 것** — 11탄 v1은 사용자가 보기 전에 올라가 휴진 문구 때문에 삭제·재게시했다.
+      사용자 지시: 휴진 일정(10/14~18)은 콘텐츠에 넣지 않는다. 다음 게시는 캐러셀 차례(대기: ochre 임플란트 시술 후 관리).
+- [x] 2026-10-10: 황토(ochre) "임플란트 시술 후 관리 체크리스트"(8장) 캐러셀 발행 — https://www.instagram.com/p/DeR5Q5xD_tV/ (Media ID 18155525668517215),
+      캡션 `assets/instagram_carousels/implant_aftercare_checklist/caption.txt`(태그 #원주치과추천 없음, 약력 미포함). 치과지식 페이지 `knowledge/carousels.json` 맨 앞에 추가.
+      **2026-10-10 사용자 결정: 10/2 "10월 공휴일 정상진료" 캐러셀(green)은 치과지식 페이지에 올리지 않는다**(일정 안내라서) — 다시 묻지 말 것.
+      다음 게시는 건치 영상 차례. 캐러셀 팔레트 순서상 다음은 green→navy→wine.
