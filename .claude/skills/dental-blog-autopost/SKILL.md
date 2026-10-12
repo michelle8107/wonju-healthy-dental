@@ -685,3 +685,8 @@ instead of re-asking the user to redo finished steps:
       캡션 `assets/instagram_carousels/implant_aftercare_checklist/caption.txt`(태그 #원주치과추천 없음, 약력 미포함). 치과지식 페이지 `knowledge/carousels.json` 맨 앞에 추가.
       **2026-10-10 사용자 결정: 10/2 "10월 공휴일 정상진료" 캐러셀(green)은 치과지식 페이지에 올리지 않는다**(일정 안내라서) — 다시 묻지 말 것.
       다음 게시는 건치 영상 차례. 캐러셀 팔레트 순서상 다음은 green→navy→wine.
+
+- [x] 2026-10-13: navy "위산 억제제(PPI) 복용과 임플란트"(10장) 캐러셀 발행 — https://www.instagram.com/p/DeZx-zsD9hm/ (Media ID 18113033855025880),
+      `assets/instagram_carousels/ppi_implant_guide/`, `scripts/gen-ppi-implant-carousel.py`, 캡션 `caption.txt`. 경쟁 병원 게시물(위장약-임플란트)을 참고하되 성분명 사용·수치 미사용·구성 변경.
+      Codex(`codex exec`, PowerShell에서 UTF-8 파일을 읽게 하고 `[Console]::OutputEncoding=UTF8` 설정 — 파이프로 한글 본문 넘기면 깨진다)로 의료광고법·의학 정확성 더블체크 후 문구 반영.
+      치과지식 페이지 추가(carousels.json 맨 앞), Redis 토픽 추가. 푸시 전. **치실·치간칫솔 green 캐러셀(`floss_interdental_checklist`, 8장)은 제작 완료·미발행** — 10/13 11시 예약은 번갈아 올리기 원칙상 취소함. 건치 13탄(위장약 Q&A, `ep13_build/ep13_v3.mp4`) 다음 순서 대기.
