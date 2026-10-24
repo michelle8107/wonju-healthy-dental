@@ -140,7 +140,7 @@ def endcap_png(text, path):
 
 overlays = []
 title_png(TITLE[0], f"{W}/title.png"); overlays.append((f"{W}/title.png", TITLE[1], TITLE[2]))
-disclosure_png(f"{W}/disc.png"); overlays.append((f"{W}/disc.png", 1.0, TOTAL))
+# 2026-10-21 사용자 결정: 상시 AI 표기 문구는 영상에서 제외 (의료인/실제 인물 없음). 캡션에 일반 건강정보 안내만 유지
 for i, (t, s, e) in enumerate(CAPS):
     caption_png(t, f"{W}/cap{i}.png"); overlays.append((f"{W}/cap{i}.png", s, e))
 endcap_png(END_CAP[0], f"{W}/endcap.png"); overlays.append((f"{W}/endcap.png", END_CAP[1], END_CAP[2]))
