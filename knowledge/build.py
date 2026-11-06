@@ -84,7 +84,7 @@ data = {}
 cards = []
 for it in items:
     slides = convert(it)
-    data[it["slug"]] = {"title": it["title"], "instagram": it.get("instagram", ""), "slides": slides}
+    data[it["slug"]] = {"title": it["title"], "instagram": it.get("instagram", ""), "blog": it.get("blog", ""), "slides": slides}
     e = {k: html.escape(str(v)) for k, v in it.items()}
     n = len(slides)
     cards.append(f"""
@@ -261,6 +261,7 @@ page = f"""<!doctype html>
   <div class="kv-bottom">
     <div class="kv-dots" id="kv-dots"></div>
     <a class="kv-ig" id="kv-ig" target="_blank" rel="noopener">인스타그램에서 보기 ↗</a>
+    <a class="kv-ig" id="kv-blog" target="_blank" rel="noopener">블로그에서 자세히 보기 ↗</a>
   </div>
 </div>
 
@@ -298,6 +299,8 @@ page = f"""<!doctype html>
         b.addEventListener('click', function () {{ go(i); }});
       }});
       if (c.instagram) {{ ig.href = c.instagram; ig.hidden = false; }} else {{ ig.hidden = true; }}
+      var blogLink = document.getElementById('kv-blog');
+      if (c.blog) {{ blogLink.href = c.blog; blogLink.hidden = false; }} else {{ blogLink.hidden = true; }}
       if (kv.hidden) {{ lastFocus = document.activeElement; }}
       kv.hidden = false;
       document.body.style.overflow = 'hidden';
